@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="net.moon.util.bundlePropertiesEditor.editor.BundlePropertiesEditor"
+            default="false"
+            filenames="bundle.properties"
+            icon="icon/testicon6.png"
+            id="com.moon.util.editor"
+            name="Bundle Properties Editor">
+      </editor>
+   </extension>
+
+</plugin>
