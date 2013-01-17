@@ -30,10 +30,13 @@ import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TableViewerFocusCellManager;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
@@ -44,12 +47,12 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
-
 public class BundlePropertiesEditor extends EditorPart {
 	public static final String id = "com.moon.util.editor";
 	private PropertiesEditor propertiesEditor;
 	private FileEditorInput fileInput;
 	private TableViewer tableViewer;
+	private TableViewerComparator comparator;
 
 	public BundlePropertiesEditor() {
 
@@ -203,17 +206,17 @@ public class BundlePropertiesEditor extends EditorPart {
 	}
 
 	private TableViewer createTableViewer(Composite parent) {
-		TableViewer tableViewer = new TableViewer(parent, SWT.FULL_SELECTION
-				| SWT.BORDER);
+		tableViewer = new TableViewer(parent, SWT.FULL_SELECTION | SWT.BORDER);
 		tableViewer.setContentProvider(new TableContentProvider());
-
-		Table table = tableViewer.getTable();
+		comparator = new TableViewerComparator();
+		tableViewer.setComparator(comparator);
+		final Table table = tableViewer.getTable();
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-
+		int colNumber = 0;
 		TableViewerColumn keyColumn = createViewerColumn(tableViewer, "Key",
-				100);
+				100, colNumber);
 		keyColumn.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -221,14 +224,27 @@ public class BundlePropertiesEditor extends EditorPart {
 				Property property = (Property) cell.getElement();
 				cell.setText(StringUtil.getUnicodeToUnicodeText(property
 						.getKey()));
+				EList<Property> properties = propertiesEditor.getProperties()
+						.get(0).getProperty();
+				int count = 0;
+				for (Property each : properties) {
+					if (each.getKey().equals(property.getKey())) {
+						count++;
+					}
+
+				}
+				if (count > 1) {
+					cell.setBackground(Display.getDefault().getSystemColor(
+							SWT.COLOR_INFO_BACKGROUND));
+				}
 			}
 		});
 		keyColumn.setEditingSupport(new KeyEditingSupport(tableViewer,
 				propertiesEditor));
-
+		colNumber++;
 		for (Properties each : propertiesEditor.getProperties()) {
 			TableViewerColumn valueColumn = createViewerColumn(tableViewer, "<"
-					+ each.getLanguage() + ">", 100);
+					+ each.getLanguage() + ">", 100, colNumber);
 			final int index = propertiesEditor.getProperties().indexOf(each);
 			valueColumn.setLabelProvider(new CellLabelProvider() {
 
@@ -249,7 +265,7 @@ public class BundlePropertiesEditor extends EditorPart {
 			});
 			valueColumn.setEditingSupport(new ValueEditingSupport(tableViewer,
 					each, index));
-
+			colNumber++;
 		}
 
 		TableViewerFocusCellManager manager = new TableViewerFocusCellManager(
@@ -276,7 +292,7 @@ public class BundlePropertiesEditor extends EditorPart {
 	}
 
 	private TableViewerColumn createViewerColumn(TableViewer tableViewer,
-			String text, int width) {
+			String text, int width, int colNumber) {
 		TableViewerColumn viewerColumn = new TableViewerColumn(tableViewer,
 				SWT.NORMAL);
 		TableColumn column = viewerColumn.getColumn();
@@ -284,7 +300,23 @@ public class BundlePropertiesEditor extends EditorPart {
 		column.setWidth(width);
 		column.setResizable(true);
 		column.setMoveable(true);
+		column.addSelectionListener(getSelectionAdapter(column, colNumber));
 		return viewerColumn;
+	}
+
+	private SelectionAdapter getSelectionAdapter(final TableColumn column,
+			final int index) {
+		SelectionAdapter selectionAdapter = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				comparator.setColumn(index);
+				int dir = comparator.getDirection();
+				tableViewer.getTable().setSortDirection(dir);
+				tableViewer.getTable().setSortColumn(column);
+				tableViewer.refresh();
+			}
+		};
+		return selectionAdapter;
 	}
 
 	@Override

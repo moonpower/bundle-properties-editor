@@ -5,12 +5,12 @@ import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Property;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
-
 
 public class KeyEditingSupport extends EditingSupport {
 
@@ -54,7 +54,19 @@ public class KeyEditingSupport extends EditingSupport {
 			System.out.println("공백 있음 에러");
 			return;
 		}
+
 		String result = StringUtil.getUnicodeTextToText(text);
+		EList<Property> properties = propertiesEditor.getProperties().get(0)
+				.getProperty();
+		int count = 0;
+		for (Property each : properties) {
+			if (each.getKey().equals(result)) {
+				count++;
+			}
+		}
+		if (count >= 1) {
+			return;
+		}
 		for (Properties each : propertiesEditor.getProperties()) {
 			for (Property eachPro : each.getProperty()) {
 				if (property.getOldKey().equals(eachPro.getOldKey())) {
