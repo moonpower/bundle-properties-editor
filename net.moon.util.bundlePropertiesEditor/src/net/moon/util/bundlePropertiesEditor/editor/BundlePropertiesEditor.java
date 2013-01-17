@@ -216,11 +216,12 @@ public class BundlePropertiesEditor extends EditorPart {
 		table.setLinesVisible(true);
 		int colNumber = 0;
 		TableViewerColumn keyColumn = createViewerColumn(tableViewer, "Key",
-				100, colNumber);
+				300, colNumber);
 		keyColumn.setLabelProvider(new CellLabelProvider() {
 
 			@Override
 			public void update(ViewerCell cell) {
+
 				Property property = (Property) cell.getElement();
 				cell.setText(StringUtil.getUnicodeToUnicodeText(property
 						.getKey()));
@@ -239,12 +240,13 @@ public class BundlePropertiesEditor extends EditorPart {
 				}
 			}
 		});
+
 		keyColumn.setEditingSupport(new KeyEditingSupport(tableViewer,
 				propertiesEditor));
 		colNumber++;
 		for (Properties each : propertiesEditor.getProperties()) {
 			TableViewerColumn valueColumn = createViewerColumn(tableViewer, "<"
-					+ each.getLanguage() + ">", 100, colNumber);
+					+ each.getLanguage() + ">", 300, colNumber);
 			final int index = propertiesEditor.getProperties().indexOf(each);
 			valueColumn.setLabelProvider(new CellLabelProvider() {
 
@@ -255,7 +257,12 @@ public class BundlePropertiesEditor extends EditorPart {
 					EList<Property> properties = propertiesEditor
 							.getProperties().get(index).getProperty();
 					for (Property each : properties) {
-						if (property.getOldKey().equals(each.getOldKey())) {
+						String oldKey = StringUtil
+								.getUnicodeToUnicodeText(property.getOldKey());
+
+						String eachOldKey = StringUtil
+								.getUnicodeToUnicodeText(each.getOldKey());
+						if (oldKey.equals(eachOldKey)) {
 							cell.setText(StringUtil
 									.getUnicodeToUnicodeText(each.getValue()));
 						}

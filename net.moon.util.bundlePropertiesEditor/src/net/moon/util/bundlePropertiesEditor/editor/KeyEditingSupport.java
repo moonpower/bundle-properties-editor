@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
 
@@ -23,10 +24,34 @@ public class KeyEditingSupport extends EditingSupport {
 	}
 
 	@Override
-	protected CellEditor getCellEditor(Object element) {
+	protected CellEditor getCellEditor(final Object element) {
 
 		TextCellEditor textCellEditor = new TextCellEditor(
 				(Composite) getViewer().getControl());
+		textCellEditor.addListener(new ICellEditorListener() {
+
+			@Override
+			public void editorValueChanged(boolean oldValidState,
+					boolean newValidState) {
+				EList<Property> property = propertiesEditor.getProperties()
+						.get(0).getProperty();
+				for (Property each : property) {
+
+				}
+			}
+
+			@Override
+			public void cancelEditor() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void applyEditorValue() {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		return textCellEditor;
 	}
 
@@ -77,4 +102,5 @@ public class KeyEditingSupport extends EditingSupport {
 		property.setKey(result);
 		getViewer().refresh(element);
 	}
+
 }

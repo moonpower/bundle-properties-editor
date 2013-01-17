@@ -2,7 +2,6 @@ package net.moon.util.bundlePropertiesEditor.editor;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
-
 
 public class ReplacePluginFile {
 	private static IFile file;
@@ -102,7 +100,8 @@ public class ReplacePluginFile {
 			String oldKey = StringUtil
 					.getUnicodeToUnicodeText(each.getOldKey());
 			if (manifestText != null) {
-				manifestText = manifestText.replace("%" + oldKey, "%" + newKey);
+				manifestText = manifestText.replace("\"%" + oldKey + "\"",
+						"\"%" + newKey + "\"");
 			}
 			if (pluginText != null) {
 				pluginText = pluginText.replace("%" + oldKey, "%" + newKey);
@@ -110,10 +109,10 @@ public class ReplacePluginFile {
 
 		}
 		if (manifestFile != null) {
-			createFile(manifestFile, manifestText);
+			modifyFile(manifestFile, manifestText);
 		}
 		if (pluginFile != null) {
-			createFile(pluginFile, pluginText);
+			modifyFile(pluginFile, pluginText);
 		}
 
 		for (Properties each : propertiesEditor.getProperties()) {
@@ -127,7 +126,8 @@ public class ReplacePluginFile {
 				buffer.append(eachProperty.getKey() + " = "
 						+ eachProperty.getValue());
 			}
-			createFile(eachFile, buffer.toString());
+
+			modifyFile(eachFile, buffer.toString());
 		}
 
 		refreshModel(propertiesEditor);
@@ -143,33 +143,25 @@ public class ReplacePluginFile {
 		}
 	}
 
-	private static void createFile(IFile file, String text) {
-		ByteArrayInputStream pluginBIS = null;
+	private static void modifyFile(IFile file, String text) {
+		ByteArrayInputStream in = null;
 		try {
 			if (file.getName().equals("plugin.xml")
 					|| file.getName().equals("MANIFEST.MF")) {
-				pluginBIS = new ByteArrayInputStream(text.getBytes("UTF-8"));
+				in = new ByteArrayInputStream(text.getBytes("UTF-8"));
+
 			}
 			else {
-				pluginBIS = new ByteArrayInputStream(
-						text.getBytes("ISO-8859-1"));
+				in = new ByteArrayInputStream(text.getBytes("ISO-8859-1"));
 
 			}
 
+			file.setContents(in, true, true, new NullProgressMonitor());
 		}
-		catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			if (file.exists()) {
-				file.delete(true, new NullProgressMonitor());
-			}
-
-			file.create(pluginBIS, true, new NullProgressMonitor());
-		}
-		catch (CoreException e) {
+		catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static IFile getFile(final String name, IProject project) {
