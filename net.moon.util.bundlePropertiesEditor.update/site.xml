@@ -6,5 +6,8 @@
    <feature url="features/net.moon.util.bundlePropertiesEditor.feature_1.0.3.jar" id="net.moon.util.bundlePropertiesEditor.feature" version="1.0.3">
       <category name="net.moon.util"/>
    </feature>
+   <feature url="features/net.moon.util.bundlePropertiesEditor.feature_1.0.4.jar" id="net.moon.util.bundlePropertiesEditor.feature" version="1.0.4">
+      <category name="net.moon.util"/>
+   </feature>
    <category-def name="net.moon.util" label="Properties Editor"/>
 </site>
