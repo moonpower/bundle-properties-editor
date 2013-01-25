@@ -3,14 +3,20 @@
 package net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl;
 
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Annotation;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertieseditorFactory;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertieseditorPackage;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Property;
 
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.SubProperties;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -50,6 +56,41 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 	 * @generated
 	 */
 	private EClass propertiesEditorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass defaultPropertyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass defaultPropertiesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass subPropertiesEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass mergeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType eFileEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -126,17 +167,8 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProperties_Property() {
-		return (EReference)propertiesEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getProperties_Name() {
-		return (EAttribute)propertiesEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)propertiesEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -145,7 +177,16 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 	 * @generated
 	 */
 	public EReference getProperties_Annotation() {
-		return (EReference)propertiesEClass.getEStructuralFeatures().get(2);
+		return (EReference)propertiesEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProperties_File() {
+		return (EAttribute)propertiesEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -234,8 +275,116 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertiesEditor_Properties() {
+	public EReference getPropertiesEditor_SubProperties() {
 		return (EReference)propertiesEditorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getPropertiesEditor_DefaultProperties() {
+		return (EReference)propertiesEditorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDefaultProperty() {
+		return defaultPropertyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDefaultProperty_SubProperty() {
+		return (EReference)defaultPropertyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDefaultProperties() {
+		return defaultPropertiesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDefaultProperties_Property() {
+		return (EReference)defaultPropertiesEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDefaultProperties_Merges() {
+		return (EReference)defaultPropertiesEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSubProperties() {
+		return subPropertiesEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSubProperties_Property() {
+		return (EReference)subPropertiesEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMerge() {
+		return mergeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMerge_Property() {
+		return (EReference)mergeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMerge_MergedProperty() {
+		return (EReference)mergeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EDataType getEFile() {
+		return eFileEDataType;
 	}
 
 	/**
@@ -267,9 +416,9 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 
 		// Create classes and their features
 		propertiesEClass = createEClass(PROPERTIES);
-		createEReference(propertiesEClass, PROPERTIES__PROPERTY);
 		createEAttribute(propertiesEClass, PROPERTIES__NAME);
 		createEReference(propertiesEClass, PROPERTIES__ANNOTATION);
+		createEAttribute(propertiesEClass, PROPERTIES__FILE);
 		createEAttribute(propertiesEClass, PROPERTIES__LANGUAGE);
 
 		propertyEClass = createEClass(PROPERTY);
@@ -282,7 +431,25 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 		createEAttribute(annotationEClass, ANNOTATION__CONTENT);
 
 		propertiesEditorEClass = createEClass(PROPERTIES_EDITOR);
-		createEReference(propertiesEditorEClass, PROPERTIES_EDITOR__PROPERTIES);
+		createEReference(propertiesEditorEClass, PROPERTIES_EDITOR__SUB_PROPERTIES);
+		createEReference(propertiesEditorEClass, PROPERTIES_EDITOR__DEFAULT_PROPERTIES);
+
+		defaultPropertyEClass = createEClass(DEFAULT_PROPERTY);
+		createEReference(defaultPropertyEClass, DEFAULT_PROPERTY__SUB_PROPERTY);
+
+		defaultPropertiesEClass = createEClass(DEFAULT_PROPERTIES);
+		createEReference(defaultPropertiesEClass, DEFAULT_PROPERTIES__PROPERTY);
+		createEReference(defaultPropertiesEClass, DEFAULT_PROPERTIES__MERGES);
+
+		subPropertiesEClass = createEClass(SUB_PROPERTIES);
+		createEReference(subPropertiesEClass, SUB_PROPERTIES__PROPERTY);
+
+		mergeEClass = createEClass(MERGE);
+		createEReference(mergeEClass, MERGE__PROPERTY);
+		createEReference(mergeEClass, MERGE__MERGED_PROPERTY);
+
+		// Create data types
+		eFileEDataType = createEDataType(EFILE);
 	}
 
 	/**
@@ -313,13 +480,16 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		defaultPropertyEClass.getESuperTypes().add(this.getProperty());
+		defaultPropertiesEClass.getESuperTypes().add(this.getProperties());
+		subPropertiesEClass.getESuperTypes().add(this.getProperties());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(propertiesEClass, Properties.class, "Properties", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getProperties_Property(), this.getProperty(), null, "property", null, 0, -1, Properties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProperties_Name(), ecorePackage.getEString(), "name", null, 0, 1, Properties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProperties_Annotation(), this.getAnnotation(), null, "annotation", null, 0, -1, Properties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProperties_Language(), ecorePackage.getEString(), "language", null, 0, 1, Properties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProperties_File(), this.getEFile(), "file", null, 0, 1, Properties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProperties_Language(), ecorePackage.getEString(), "language", "default", 0, 1, Properties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(propertyEClass, Property.class, "Property", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getProperty_Key(), ecorePackage.getEString(), "key", null, 0, 1, Property.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -331,7 +501,25 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 		initEAttribute(getAnnotation_Content(), ecorePackage.getEString(), "content", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(propertiesEditorEClass, PropertiesEditor.class, "PropertiesEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getPropertiesEditor_Properties(), this.getProperties(), null, "properties", null, 0, -1, PropertiesEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPropertiesEditor_SubProperties(), this.getSubProperties(), null, "subProperties", null, 0, -1, PropertiesEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPropertiesEditor_DefaultProperties(), this.getDefaultProperties(), null, "defaultProperties", null, 0, 1, PropertiesEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(defaultPropertyEClass, DefaultProperty.class, "DefaultProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDefaultProperty_SubProperty(), this.getProperty(), null, "subProperty", null, 0, -1, DefaultProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(defaultPropertiesEClass, DefaultProperties.class, "DefaultProperties", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDefaultProperties_Property(), this.getDefaultProperty(), null, "property", null, 0, -1, DefaultProperties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDefaultProperties_Merges(), this.getMerge(), null, "merges", null, 0, -1, DefaultProperties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(subPropertiesEClass, SubProperties.class, "SubProperties", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSubProperties_Property(), this.getProperty(), null, "property", null, 0, -1, SubProperties.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(mergeEClass, Merge.class, "Merge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMerge_Property(), this.getDefaultProperty(), null, "property", null, 0, 1, Merge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getMerge_MergedProperty(), this.getDefaultProperty(), null, "mergedProperty", null, 0, -1, Merge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize data types
+		initEDataType(eFileEDataType, IFile.class, "EFile", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

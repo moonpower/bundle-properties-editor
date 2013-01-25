@@ -4,6 +4,7 @@ package net.moon.util.bundlePropertiesEditor.model.propertieseditor;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -37,7 +38,7 @@ public interface PropertieseditorPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "com.bundle.util";
+	String eNS_URI = "https://github.com/moonpower/bundle-properties-editor.git";
 
 	/**
 	 * The package namespace name.
@@ -45,7 +46,7 @@ public interface PropertieseditorPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "com.bundle.util.model";
+	String eNS_PREFIX = "net.moon.util.bundlePropertiesEditor";
 
 	/**
 	 * The singleton instance of the package.
@@ -66,22 +67,13 @@ public interface PropertieseditorPackage extends EPackage {
 	int PROPERTIES = 0;
 
 	/**
-	 * The feature id for the '<em><b>Property</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int PROPERTIES__PROPERTY = 0;
-
-	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTIES__NAME = 1;
+	int PROPERTIES__NAME = 0;
 
 	/**
 	 * The feature id for the '<em><b>Annotation</b></em>' containment reference list.
@@ -90,7 +82,16 @@ public interface PropertieseditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTIES__ANNOTATION = 2;
+	int PROPERTIES__ANNOTATION = 1;
+
+	/**
+	 * The feature id for the '<em><b>File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES__FILE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Language</b></em>' attribute.
@@ -204,13 +205,22 @@ public interface PropertieseditorPackage extends EPackage {
 	int PROPERTIES_EDITOR = 3;
 
 	/**
-	 * The feature id for the '<em><b>Properties</b></em>' reference list.
+	 * The feature id for the '<em><b>Sub Properties</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTIES_EDITOR__PROPERTIES = 0;
+	int PROPERTIES_EDITOR__SUB_PROPERTIES = 0;
+
+	/**
+	 * The feature id for the '<em><b>Default Properties</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_EDITOR__DEFAULT_PROPERTIES = 1;
 
 	/**
 	 * The number of structural features of the '<em>Properties Editor</em>' class.
@@ -219,7 +229,256 @@ public interface PropertieseditorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTIES_EDITOR_FEATURE_COUNT = 1;
+	int PROPERTIES_EDITOR_FEATURE_COUNT = 2;
+
+
+	/**
+	 * The meta object id for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertyImpl <em>Default Property</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertyImpl
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getDefaultProperty()
+	 * @generated
+	 */
+	int DEFAULT_PROPERTY = 4;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTY__KEY = PROPERTY__KEY;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTY__VALUE = PROPERTY__VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Old Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTY__OLD_KEY = PROPERTY__OLD_KEY;
+
+	/**
+	 * The feature id for the '<em><b>Old Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTY__OLD_VALUE = PROPERTY__OLD_VALUE;
+
+	/**
+	 * The feature id for the '<em><b>Sub Property</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTY__SUB_PROPERTY = PROPERTY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Default Property</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTY_FEATURE_COUNT = PROPERTY_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertiesImpl <em>Default Properties</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertiesImpl
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getDefaultProperties()
+	 * @generated
+	 */
+	int DEFAULT_PROPERTIES = 5;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTIES__NAME = PROPERTIES__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTIES__ANNOTATION = PROPERTIES__ANNOTATION;
+
+	/**
+	 * The feature id for the '<em><b>File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTIES__FILE = PROPERTIES__FILE;
+
+	/**
+	 * The feature id for the '<em><b>Language</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTIES__LANGUAGE = PROPERTIES__LANGUAGE;
+
+	/**
+	 * The feature id for the '<em><b>Property</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTIES__PROPERTY = PROPERTIES_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Merges</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTIES__MERGES = PROPERTIES_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Default Properties</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEFAULT_PROPERTIES_FEATURE_COUNT = PROPERTIES_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.SubPropertiesImpl <em>Sub Properties</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.SubPropertiesImpl
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getSubProperties()
+	 * @generated
+	 */
+	int SUB_PROPERTIES = 6;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUB_PROPERTIES__NAME = PROPERTIES__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Annotation</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUB_PROPERTIES__ANNOTATION = PROPERTIES__ANNOTATION;
+
+	/**
+	 * The feature id for the '<em><b>File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUB_PROPERTIES__FILE = PROPERTIES__FILE;
+
+	/**
+	 * The feature id for the '<em><b>Language</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUB_PROPERTIES__LANGUAGE = PROPERTIES__LANGUAGE;
+
+	/**
+	 * The feature id for the '<em><b>Property</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUB_PROPERTIES__PROPERTY = PROPERTIES_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Sub Properties</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUB_PROPERTIES_FEATURE_COUNT = PROPERTIES_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.MergeImpl <em>Merge</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.MergeImpl
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getMerge()
+	 * @generated
+	 */
+	int MERGE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Property</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MERGE__PROPERTY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Merged Property</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MERGE__MERGED_PROPERTY = 1;
+
+	/**
+	 * The number of structural features of the '<em>Merge</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MERGE_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '<em>EFile</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.core.resources.IFile
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getEFile()
+	 * @generated
+	 */
+	int EFILE = 8;
 
 
 	/**
@@ -231,17 +490,6 @@ public interface PropertieseditorPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getProperties();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getProperty <em>Property</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Property</em>'.
-	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getProperty()
-	 * @see #getProperties()
-	 * @generated
-	 */
-	EReference getProperties_Property();
 
 	/**
 	 * Returns the meta object for the attribute '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getName <em>Name</em>}'.
@@ -264,6 +512,17 @@ public interface PropertieseditorPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getProperties_Annotation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getFile <em>File</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getFile()
+	 * @see #getProperties()
+	 * @generated
+	 */
+	EAttribute getProperties_File();
 
 	/**
 	 * Returns the meta object for the attribute '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getLanguage <em>Language</em>}'.
@@ -362,15 +621,143 @@ public interface PropertieseditorPackage extends EPackage {
 	EClass getPropertiesEditor();
 
 	/**
-	 * Returns the meta object for the reference list '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#getProperties <em>Properties</em>}'.
+	 * Returns the meta object for the containment reference list '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#getSubProperties <em>Sub Properties</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Properties</em>'.
-	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#getProperties()
+	 * @return the meta object for the containment reference list '<em>Sub Properties</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#getSubProperties()
 	 * @see #getPropertiesEditor()
 	 * @generated
 	 */
-	EReference getPropertiesEditor_Properties();
+	EReference getPropertiesEditor_SubProperties();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#getDefaultProperties <em>Default Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Default Properties</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#getDefaultProperties()
+	 * @see #getPropertiesEditor()
+	 * @generated
+	 */
+	EReference getPropertiesEditor_DefaultProperties();
+
+	/**
+	 * Returns the meta object for class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty <em>Default Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Default Property</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty
+	 * @generated
+	 */
+	EClass getDefaultProperty();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty#getSubProperty <em>Sub Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Sub Property</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty#getSubProperty()
+	 * @see #getDefaultProperty()
+	 * @generated
+	 */
+	EReference getDefaultProperty_SubProperty();
+
+	/**
+	 * Returns the meta object for class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties <em>Default Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Default Properties</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties
+	 * @generated
+	 */
+	EClass getDefaultProperties();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties#getProperty <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Property</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties#getProperty()
+	 * @see #getDefaultProperties()
+	 * @generated
+	 */
+	EReference getDefaultProperties_Property();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties#getMerges <em>Merges</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Merges</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties#getMerges()
+	 * @see #getDefaultProperties()
+	 * @generated
+	 */
+	EReference getDefaultProperties_Merges();
+
+	/**
+	 * Returns the meta object for class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.SubProperties <em>Sub Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Sub Properties</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.SubProperties
+	 * @generated
+	 */
+	EClass getSubProperties();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.SubProperties#getProperty <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Property</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.SubProperties#getProperty()
+	 * @see #getSubProperties()
+	 * @generated
+	 */
+	EReference getSubProperties_Property();
+
+	/**
+	 * Returns the meta object for class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge <em>Merge</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Merge</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge
+	 * @generated
+	 */
+	EClass getMerge();
+
+	/**
+	 * Returns the meta object for the reference '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge#getProperty <em>Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Property</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge#getProperty()
+	 * @see #getMerge()
+	 * @generated
+	 */
+	EReference getMerge_Property();
+
+	/**
+	 * Returns the meta object for the reference list '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge#getMergedProperty <em>Merged Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Merged Property</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge#getMergedProperty()
+	 * @see #getMerge()
+	 * @generated
+	 */
+	EReference getMerge_MergedProperty();
+
+	/**
+	 * Returns the meta object for data type '{@link org.eclipse.core.resources.IFile <em>EFile</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>EFile</em>'.
+	 * @see org.eclipse.core.resources.IFile
+	 * @model instanceClass="org.eclipse.core.resources.IFile"
+	 * @generated
+	 */
+	EDataType getEFile();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -405,14 +792,6 @@ public interface PropertieseditorPackage extends EPackage {
 		EClass PROPERTIES = eINSTANCE.getProperties();
 
 		/**
-		 * The meta object literal for the '<em><b>Property</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference PROPERTIES__PROPERTY = eINSTANCE.getProperties_Property();
-
-		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -427,6 +806,14 @@ public interface PropertieseditorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROPERTIES__ANNOTATION = eINSTANCE.getProperties_Annotation();
+
+		/**
+		 * The meta object literal for the '<em><b>File</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTIES__FILE = eINSTANCE.getProperties_File();
 
 		/**
 		 * The meta object literal for the '<em><b>Language</b></em>' attribute feature.
@@ -507,12 +894,118 @@ public interface PropertieseditorPackage extends EPackage {
 		EClass PROPERTIES_EDITOR = eINSTANCE.getPropertiesEditor();
 
 		/**
-		 * The meta object literal for the '<em><b>Properties</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Sub Properties</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PROPERTIES_EDITOR__PROPERTIES = eINSTANCE.getPropertiesEditor_Properties();
+		EReference PROPERTIES_EDITOR__SUB_PROPERTIES = eINSTANCE.getPropertiesEditor_SubProperties();
+
+		/**
+		 * The meta object literal for the '<em><b>Default Properties</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTIES_EDITOR__DEFAULT_PROPERTIES = eINSTANCE.getPropertiesEditor_DefaultProperties();
+
+		/**
+		 * The meta object literal for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertyImpl <em>Default Property</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertyImpl
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getDefaultProperty()
+		 * @generated
+		 */
+		EClass DEFAULT_PROPERTY = eINSTANCE.getDefaultProperty();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Property</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DEFAULT_PROPERTY__SUB_PROPERTY = eINSTANCE.getDefaultProperty_SubProperty();
+
+		/**
+		 * The meta object literal for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertiesImpl <em>Default Properties</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertiesImpl
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getDefaultProperties()
+		 * @generated
+		 */
+		EClass DEFAULT_PROPERTIES = eINSTANCE.getDefaultProperties();
+
+		/**
+		 * The meta object literal for the '<em><b>Property</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DEFAULT_PROPERTIES__PROPERTY = eINSTANCE.getDefaultProperties_Property();
+
+		/**
+		 * The meta object literal for the '<em><b>Merges</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DEFAULT_PROPERTIES__MERGES = eINSTANCE.getDefaultProperties_Merges();
+
+		/**
+		 * The meta object literal for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.SubPropertiesImpl <em>Sub Properties</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.SubPropertiesImpl
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getSubProperties()
+		 * @generated
+		 */
+		EClass SUB_PROPERTIES = eINSTANCE.getSubProperties();
+
+		/**
+		 * The meta object literal for the '<em><b>Property</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SUB_PROPERTIES__PROPERTY = eINSTANCE.getSubProperties_Property();
+
+		/**
+		 * The meta object literal for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.MergeImpl <em>Merge</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.MergeImpl
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getMerge()
+		 * @generated
+		 */
+		EClass MERGE = eINSTANCE.getMerge();
+
+		/**
+		 * The meta object literal for the '<em><b>Property</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MERGE__PROPERTY = eINSTANCE.getMerge_Property();
+
+		/**
+		 * The meta object literal for the '<em><b>Merged Property</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MERGE__MERGED_PROPERTY = eINSTANCE.getMerge_MergedProperty();
+
+		/**
+		 * The meta object literal for the '<em>EFile</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.core.resources.IFile
+		 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorPackageImpl#getEFile()
+		 * @generated
+		 */
+		EDataType EFILE = eINSTANCE.getEFile();
 
 	}
 

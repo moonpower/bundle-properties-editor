@@ -1,15 +1,13 @@
 package net.moon.util.bundlePropertiesEditor.editor;
 
 import net.moon.util.bundlePropertiesEditor.StringUtil;
-import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Property;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
 
@@ -28,30 +26,7 @@ public class KeyEditingSupport extends EditingSupport {
 
 		TextCellEditor textCellEditor = new TextCellEditor(
 				(Composite) getViewer().getControl());
-		textCellEditor.addListener(new ICellEditorListener() {
 
-			@Override
-			public void editorValueChanged(boolean oldValidState,
-					boolean newValidState) {
-				EList<Property> property = propertiesEditor.getProperties()
-						.get(0).getProperty();
-				for (Property each : property) {
-
-				}
-			}
-
-			@Override
-			public void cancelEditor() {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void applyEditorValue() {
-				// TODO Auto-generated method stub
-
-			}
-		});
 		return textCellEditor;
 	}
 
@@ -73,7 +48,7 @@ public class KeyEditingSupport extends EditingSupport {
 
 	@Override
 	protected void setValue(Object element, Object value) {
-		Property property = (Property) element;
+		DefaultProperty property = (DefaultProperty) element;
 		String text = value.toString().trim();
 		if (text.contains(" ")) {
 			System.out.println("공백 있음 에러");
@@ -81,26 +56,12 @@ public class KeyEditingSupport extends EditingSupport {
 		}
 
 		String result = StringUtil.getUnicodeTextToText(text);
-		EList<Property> properties = propertiesEditor.getProperties().get(0)
-				.getProperty();
-		int count = 0;
-		for (Property each : properties) {
-			if (each.getKey().equals(result)) {
-				count++;
-			}
-		}
-		if (count >= 1) {
-			return;
-		}
-		for (Properties each : propertiesEditor.getProperties()) {
-			for (Property eachPro : each.getProperty()) {
-				if (property.getOldKey().equals(eachPro.getOldKey())) {
-					eachPro.setKey(result);
-				}
-			}
-		}
+
 		property.setKey(result);
+		for (Property each : property.getSubProperty()) {
+			each.setKey(result);
+		}
+
 		getViewer().refresh(element);
 	}
-
 }

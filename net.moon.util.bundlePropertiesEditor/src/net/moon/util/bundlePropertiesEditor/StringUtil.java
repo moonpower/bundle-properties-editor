@@ -110,6 +110,9 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String getUnicodeToUnicodeText(String str) {
+		if (str == null) {
+			return "";
+		}
 		StringBuffer buf = new StringBuffer();
 		Matcher m = Pattern.compile("\\\\u([0-9A-Fa-f]{4})").matcher(str);
 		while (m.find()) {
@@ -134,6 +137,9 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String getUnicodeTextToText(String str) {
+		if (str == null) {
+			return "";
+		}
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);

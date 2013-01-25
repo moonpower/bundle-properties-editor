@@ -7,9 +7,12 @@ import java.util.List;
 
 import net.moon.util.bundlePropertiesEditor.StringUtil;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Annotation;
-import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Property;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.SubProperties;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -76,29 +79,25 @@ public class ReplacePluginFile {
 		}
 	}
 
-	public static void saveProperties(PropertiesEditor propertiesEditor,
-			IFile defaultFile) {
-		IProject project = defaultFile.getProject();
+	public static void saveFiles(PropertiesEditor propertiesEditor) {
+		PropertiesRelativeFile relativeFile = new PropertiesRelativeFile(
+				propertiesEditor.getDefaultProperties().getFile());
 
-		IFile manifestFile = getFile("MANIFEST.MF", project);
-		IFile pluginFile = getFile("plugin.xml", project);
-
-		List<IFile> propertyFileList = new ArrayList<IFile>();
-		for (Properties each : propertiesEditor.getProperties()) {
-			propertyFileList.add(getFile(each.getName(), project));
-		}
+		IFile manifestFile = relativeFile.loadManifestFile();
+		IFile pluginFile = relativeFile.loadPluginFile();
 
 		String pluginText = getFileText(pluginFile, "UTF-8");
 
 		String manifestText = getFileText(manifestFile, "UTF-8");
 
-		EList<Property> property = propertiesEditor.getProperties().get(0)
-				.getProperty();
-		for (Property each : property) {
+		EList<DefaultProperty> property = propertiesEditor
+				.getDefaultProperties().getProperty();
+		for (DefaultProperty each : property) {
 
 			String newKey = StringUtil.getUnicodeToUnicodeText(each.getKey());
 			String oldKey = StringUtil
 					.getUnicodeToUnicodeText(each.getOldKey());
+
 			if (manifestText != null) {
 				manifestText = manifestText.replace("\"%" + oldKey + "\"",
 						"\"%" + newKey + "\"");
@@ -108,60 +107,84 @@ public class ReplacePluginFile {
 			}
 
 		}
+		EList<Merge> merges = propertiesEditor.getDefaultProperties()
+				.getMerges();
+
+		for (Merge each : merges) {
+			String key = each.getProperty().getKey();
+			for (Property eachProperty : each.getMergedProperty()) {
+				if (manifestText != null) {
+					manifestText = manifestText.replace(
+							"\"%" + eachProperty.getOldKey() + "\"", "\"%"
+									+ key + "\"");
+				}
+				if (pluginText != null) {
+					pluginText = pluginText.replace(
+							"%" + eachProperty.getOldKey(), "%" + key);
+				}
+			}
+
+		}
 		if (manifestFile != null) {
-			modifyFile(manifestFile, manifestText);
+			relativeFile.saveManifestFile(manifestText);
 		}
 		if (pluginFile != null) {
-			modifyFile(pluginFile, pluginText);
+			relativeFile.savePluginFile(pluginText);
 		}
 
-		for (Properties each : propertiesEditor.getProperties()) {
-			IFile eachFile = getFile(each.getName(), project);
-			StringBuffer buffer = new StringBuffer();
-			for (Annotation eachAnnotation : each.getAnnotation()) {
+		DefaultProperties defaultProperties = propertiesEditor
+				.getDefaultProperties();
+		StringBuffer buffer = new StringBuffer();
+		for (Annotation eachAnnotation : defaultProperties.getAnnotation()) {
+			buffer.append(eachAnnotation.getContent());
+		}
+		for (DefaultProperty each : defaultProperties.getProperty()) {
+
+			buffer.append("\r\n");
+			buffer.append(each.getKey() + " = " + each.getValue());
+
+		}
+		relativeFile.savePropertiesFile(defaultProperties.getFile(),
+				buffer.toString());
+
+		int size = propertiesEditor.getSubProperties().size();
+		EList<SubProperties> subProperties = propertiesEditor
+				.getSubProperties();
+		EList<DefaultProperty> property2 = propertiesEditor
+				.getDefaultProperties().getProperty();
+		for (int i = 0; i < size; i++) {
+			buffer = new StringBuffer();
+			for (Annotation eachAnnotation : subProperties.get(i)
+					.getAnnotation()) {
 				buffer.append(eachAnnotation.getContent());
 			}
-			for (Property eachProperty : each.getProperty()) {
+
+			for (DefaultProperty eachProperty : property2) {
 				buffer.append("\r\n");
-				buffer.append(eachProperty.getKey() + " = "
-						+ eachProperty.getValue());
+				buffer.append(eachProperty.getSubProperty().get(i).getKey()
+						+ " = "
+						+ eachProperty.getSubProperty().get(i).getValue());
 			}
 
-			modifyFile(eachFile, buffer.toString());
+			relativeFile.savePropertiesFile(subProperties.get(i).getFile(),
+					buffer.toString());
 		}
 
 		refreshModel(propertiesEditor);
-
+		System.out.println("저장 완료");
 	}
 
 	private static void refreshModel(PropertiesEditor properties) {
-		for (Properties each : properties.getProperties()) {
+		for (Property each : properties.getDefaultProperties().getProperty()) {
+			each.setOldKey(each.getKey());
+			each.setOldValue(each.getValue());
+		}
+		for (SubProperties each : properties.getSubProperties()) {
 			for (Property eachProperty : each.getProperty()) {
 				eachProperty.setOldKey(eachProperty.getKey());
 				eachProperty.setOldValue(eachProperty.getValue());
 			}
 		}
-	}
-
-	private static void modifyFile(IFile file, String text) {
-		ByteArrayInputStream in = null;
-		try {
-			if (file.getName().equals("plugin.xml")
-					|| file.getName().equals("MANIFEST.MF")) {
-				in = new ByteArrayInputStream(text.getBytes("UTF-8"));
-
-			}
-			else {
-				in = new ByteArrayInputStream(text.getBytes("ISO-8859-1"));
-
-			}
-
-			file.setContents(in, true, true, new NullProgressMonitor());
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public static IFile getFile(final String name, IProject project) {

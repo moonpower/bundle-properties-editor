@@ -90,6 +90,33 @@ public class PropertieseditorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case PropertieseditorPackage.DEFAULT_PROPERTY: {
+				DefaultProperty defaultProperty = (DefaultProperty)theEObject;
+				T result = caseDefaultProperty(defaultProperty);
+				if (result == null) result = caseProperty(defaultProperty);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PropertieseditorPackage.DEFAULT_PROPERTIES: {
+				DefaultProperties defaultProperties = (DefaultProperties)theEObject;
+				T result = caseDefaultProperties(defaultProperties);
+				if (result == null) result = caseProperties(defaultProperties);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PropertieseditorPackage.SUB_PROPERTIES: {
+				SubProperties subProperties = (SubProperties)theEObject;
+				T result = caseSubProperties(subProperties);
+				if (result == null) result = caseProperties(subProperties);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case PropertieseditorPackage.MERGE: {
+				Merge merge = (Merge)theEObject;
+				T result = caseMerge(merge);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -151,6 +178,66 @@ public class PropertieseditorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T casePropertiesEditor(PropertiesEditor object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Default Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Default Property</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDefaultProperty(DefaultProperty object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Default Properties</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Default Properties</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDefaultProperties(DefaultProperties object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Sub Properties</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Sub Properties</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSubProperties(SubProperties object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Merge</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Merge</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMerge(Merge object) {
 		return null;
 	}
 

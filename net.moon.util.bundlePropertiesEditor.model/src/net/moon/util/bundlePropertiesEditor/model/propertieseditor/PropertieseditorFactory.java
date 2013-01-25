@@ -58,6 +58,42 @@ public interface PropertieseditorFactory extends EFactory {
 	PropertiesEditor createPropertiesEditor();
 
 	/**
+	 * Returns a new object of class '<em>Default Property</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Default Property</em>'.
+	 * @generated
+	 */
+	DefaultProperty createDefaultProperty();
+
+	/**
+	 * Returns a new object of class '<em>Default Properties</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Default Properties</em>'.
+	 * @generated
+	 */
+	DefaultProperties createDefaultProperties();
+
+	/**
+	 * Returns a new object of class '<em>Sub Properties</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Sub Properties</em>'.
+	 * @generated
+	 */
+	SubProperties createSubProperties();
+
+	/**
+	 * Returns a new object of class '<em>Merge</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Merge</em>'.
+	 * @generated
+	 */
+	Merge createMerge();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

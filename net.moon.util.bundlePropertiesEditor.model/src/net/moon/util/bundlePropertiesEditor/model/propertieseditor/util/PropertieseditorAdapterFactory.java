@@ -84,6 +84,22 @@ public class PropertieseditorAdapterFactory extends AdapterFactoryImpl {
 				return createPropertiesEditorAdapter();
 			}
 			@Override
+			public Adapter caseDefaultProperty(DefaultProperty object) {
+				return createDefaultPropertyAdapter();
+			}
+			@Override
+			public Adapter caseDefaultProperties(DefaultProperties object) {
+				return createDefaultPropertiesAdapter();
+			}
+			@Override
+			public Adapter caseSubProperties(SubProperties object) {
+				return createSubPropertiesAdapter();
+			}
+			@Override
+			public Adapter caseMerge(Merge object) {
+				return createMergeAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -156,6 +172,62 @@ public class PropertieseditorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createPropertiesEditorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty <em>Default Property</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty
+	 * @generated
+	 */
+	public Adapter createDefaultPropertyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties <em>Default Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties
+	 * @generated
+	 */
+	public Adapter createDefaultPropertiesAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.SubProperties <em>Sub Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.SubProperties
+	 * @generated
+	 */
+	public Adapter createSubPropertiesAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge <em>Merge</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge
+	 * @generated
+	 */
+	public Adapter createMergeAdapter() {
 		return null;
 	}
 

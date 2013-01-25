@@ -2,6 +2,7 @@
  */
 package net.moon.util.bundlePropertiesEditor.model.propertieseditor;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -14,9 +15,9 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getProperty <em>Property</em>}</li>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getName <em>Name</em>}</li>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getAnnotation <em>Annotation</em>}</li>
+ *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getFile <em>File</em>}</li>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getLanguage <em>Language</em>}</li>
  * </ul>
  * </p>
@@ -26,22 +27,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Properties extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Property</b></em>' containment reference list.
-	 * The list contents are of type {@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Property}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Property</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Property</em>' containment reference list.
-	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertieseditorPackage#getProperties_Property()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Property> getProperty();
-
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -85,7 +70,34 @@ public interface Properties extends EObject {
 	EList<Annotation> getAnnotation();
 
 	/**
+	 * Returns the value of the '<em><b>File</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>File</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>File</em>' attribute.
+	 * @see #setFile(IFile)
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertieseditorPackage#getProperties_File()
+	 * @model dataType="net.moon.util.bundlePropertiesEditor.model.propertieseditor.EFile"
+	 * @generated
+	 */
+	IFile getFile();
+
+	/**
+	 * Sets the value of the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties#getFile <em>File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>File</em>' attribute.
+	 * @see #getFile()
+	 * @generated
+	 */
+	void setFile(IFile value);
+
+	/**
 	 * Returns the value of the '<em><b>Language</b></em>' attribute.
+	 * The default value is <code>"default"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Language</em>' attribute isn't clear,
@@ -95,7 +107,7 @@ public interface Properties extends EObject {
 	 * @return the value of the '<em>Language</em>' attribute.
 	 * @see #setLanguage(String)
 	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertieseditorPackage#getProperties_Language()
-	 * @model
+	 * @model default="default"
 	 * @generated
 	 */
 	String getLanguage();

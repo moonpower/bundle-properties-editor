@@ -12,7 +12,7 @@ public class TableViewerComparator extends ViewerComparator {
 	private int direction = DESCENDING;
 
 	public TableViewerComparator() {
-		this.propertyIndex = 0;
+		this.propertyIndex = 1;
 		direction = DESCENDING;
 	}
 
@@ -37,10 +37,10 @@ public class TableViewerComparator extends ViewerComparator {
 		Property p2 = (Property) e2;
 		int rc = 0;
 		switch (propertyIndex) {
-		case 0:
+		case 1:
 			rc = p1.getKey().compareTo(p2.getKey());
 			break;
-		case 1:
+		case 2:
 			rc = p1.getValue().compareTo(p2.getValue());
 			break;
 

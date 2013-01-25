@@ -1,6 +1,6 @@
 package net.moon.util.bundlePropertiesEditor.editor;
 
-import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties;
+import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -19,8 +19,8 @@ public class TableContentProvider implements IStructuredContentProvider {
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof Properties) {
-			Properties properties = (Properties) inputElement;
+		if (inputElement instanceof DefaultProperties) {
+			DefaultProperties properties = (DefaultProperties) inputElement;
 			return properties.getProperty().toArray();
 		}
 		return null;

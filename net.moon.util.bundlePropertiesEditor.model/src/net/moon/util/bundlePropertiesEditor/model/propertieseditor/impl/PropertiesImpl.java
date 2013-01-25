@@ -9,6 +9,7 @@ import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertieseditorPackage;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Property;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -30,9 +31,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertiesImpl#getProperty <em>Property</em>}</li>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertiesImpl#getName <em>Name</em>}</li>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertiesImpl#getAnnotation <em>Annotation</em>}</li>
+ *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertiesImpl#getFile <em>File</em>}</li>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertiesImpl#getLanguage <em>Language</em>}</li>
  * </ul>
  * </p>
@@ -40,16 +41,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class PropertiesImpl extends EObjectImpl implements Properties {
-	/**
-	 * The cached value of the '{@link #getProperty() <em>Property</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getProperty()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Property> property;
-
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -81,6 +72,26 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	protected EList<Annotation> annotation;
 
 	/**
+	 * The default value of the '{@link #getFile() <em>File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFile()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final IFile FILE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getFile() <em>File</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFile()
+	 * @generated
+	 * @ordered
+	 */
+	protected IFile file = FILE_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getLanguage() <em>Language</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -88,7 +99,7 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String LANGUAGE_EDEFAULT = null;
+	protected static final String LANGUAGE_EDEFAULT = "default";
 
 	/**
 	 * The cached value of the '{@link #getLanguage() <em>Language</em>}' attribute.
@@ -117,18 +128,6 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	@Override
 	protected EClass eStaticClass() {
 		return PropertieseditorPackage.Literals.PROPERTIES;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Property> getProperty() {
-		if (property == null) {
-			property = new EObjectContainmentEList<Property>(Property.class, this, PropertieseditorPackage.PROPERTIES__PROPERTY);
-		}
-		return property;
 	}
 
 	/**
@@ -169,6 +168,27 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public IFile getFile() {
+		return file;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFile(IFile newFile) {
+		IFile oldFile = file;
+		file = newFile;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PropertieseditorPackage.PROPERTIES__FILE, oldFile, file));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getLanguage() {
 		return language;
 	}
@@ -193,8 +213,6 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case PropertieseditorPackage.PROPERTIES__PROPERTY:
-				return ((InternalEList<?>)getProperty()).basicRemove(otherEnd, msgs);
 			case PropertieseditorPackage.PROPERTIES__ANNOTATION:
 				return ((InternalEList<?>)getAnnotation()).basicRemove(otherEnd, msgs);
 		}
@@ -209,12 +227,12 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case PropertieseditorPackage.PROPERTIES__PROPERTY:
-				return getProperty();
 			case PropertieseditorPackage.PROPERTIES__NAME:
 				return getName();
 			case PropertieseditorPackage.PROPERTIES__ANNOTATION:
 				return getAnnotation();
+			case PropertieseditorPackage.PROPERTIES__FILE:
+				return getFile();
 			case PropertieseditorPackage.PROPERTIES__LANGUAGE:
 				return getLanguage();
 		}
@@ -230,16 +248,15 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case PropertieseditorPackage.PROPERTIES__PROPERTY:
-				getProperty().clear();
-				getProperty().addAll((Collection<? extends Property>)newValue);
-				return;
 			case PropertieseditorPackage.PROPERTIES__NAME:
 				setName((String)newValue);
 				return;
 			case PropertieseditorPackage.PROPERTIES__ANNOTATION:
 				getAnnotation().clear();
 				getAnnotation().addAll((Collection<? extends Annotation>)newValue);
+				return;
+			case PropertieseditorPackage.PROPERTIES__FILE:
+				setFile((IFile)newValue);
 				return;
 			case PropertieseditorPackage.PROPERTIES__LANGUAGE:
 				setLanguage((String)newValue);
@@ -256,14 +273,14 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case PropertieseditorPackage.PROPERTIES__PROPERTY:
-				getProperty().clear();
-				return;
 			case PropertieseditorPackage.PROPERTIES__NAME:
 				setName(NAME_EDEFAULT);
 				return;
 			case PropertieseditorPackage.PROPERTIES__ANNOTATION:
 				getAnnotation().clear();
+				return;
+			case PropertieseditorPackage.PROPERTIES__FILE:
+				setFile(FILE_EDEFAULT);
 				return;
 			case PropertieseditorPackage.PROPERTIES__LANGUAGE:
 				setLanguage(LANGUAGE_EDEFAULT);
@@ -280,12 +297,12 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case PropertieseditorPackage.PROPERTIES__PROPERTY:
-				return property != null && !property.isEmpty();
 			case PropertieseditorPackage.PROPERTIES__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case PropertieseditorPackage.PROPERTIES__ANNOTATION:
 				return annotation != null && !annotation.isEmpty();
+			case PropertieseditorPackage.PROPERTIES__FILE:
+				return FILE_EDEFAULT == null ? file != null : !FILE_EDEFAULT.equals(file);
 			case PropertieseditorPackage.PROPERTIES__LANGUAGE:
 				return LANGUAGE_EDEFAULT == null ? language != null : !LANGUAGE_EDEFAULT.equals(language);
 		}
@@ -304,6 +321,8 @@ public class PropertiesImpl extends EObjectImpl implements Properties {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
+		result.append(", file: ");
+		result.append(file);
 		result.append(", language: ");
 		result.append(language);
 		result.append(')');

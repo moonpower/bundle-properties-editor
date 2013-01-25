@@ -6,6 +6,7 @@
       <editor
             class="net.moon.util.bundlePropertiesEditor.editor.BundlePropertiesEditor"
             default="false"
+            extensions="properties"
             filenames="bundle.properties"
             icon="icon/testicon6.png"
             id="com.moon.util.editor"
