@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
@@ -31,7 +32,7 @@ public class PropertiesRelativeFile {
 		int indexOf = fileFullName.indexOf('.');
 		final String fileName = fileFullName.substring(0, indexOf);
 
-		list = getLagnuageFileList(fileName, project);
+		list = getLagnuageFileList(file, fileName, project);
 
 		return list;
 
@@ -53,7 +54,7 @@ public class PropertiesRelativeFile {
 	public IFile loadPluginFile() {
 		IProject project = file.getProject();
 
-		pluginFile = getFile("plugin.xml", project);
+		pluginFile = project.getFile("plugin.xml");
 
 		return pluginFile;
 	}
@@ -61,7 +62,7 @@ public class PropertiesRelativeFile {
 	public IFile loadManifestFile() {
 		IProject project = file.getProject();
 
-		manifestFile = getFile("MANIFEST.MF", project);
+		manifestFile = project.getFile("META-INF/MANIFEST.MF");
 
 		return manifestFile;
 
@@ -149,11 +150,14 @@ public class PropertiesRelativeFile {
 		}
 	}
 
-	private List<IFile> getLagnuageFileList(final String fileName,
+	private List<IFile> getLagnuageFileList(IFile file, final String fileName,
 			IProject project) {
 		final List<IPath> list = new ArrayList<IPath>();
+		IPath removeLastSegments = file.getFullPath().removeLastSegments(1);
+		IFolder folder = project.getFolder(removeLastSegments
+				.removeFirstSegments(1));
 		try {
-			project.accept(new IResourceVisitor() {
+			folder.accept(new IResourceVisitor() {
 
 				@Override
 				public boolean visit(IResource resource) throws CoreException {

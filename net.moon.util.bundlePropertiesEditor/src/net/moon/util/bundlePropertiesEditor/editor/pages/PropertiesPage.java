@@ -286,8 +286,9 @@ public class PropertiesPage extends AbstractPropertiesPage {
 		}
 		String language = null;
 		if (file.getName().contains("_")) {
-			String[] split = file.getName().split("_");
-			language = split[1];
+			int indexOf = 1 + file.getName().indexOf("_");
+			language = file.getName().substring(indexOf, indexOf + 2);
+
 		}
 		else {
 			language = "default";
