@@ -2,7 +2,7 @@
 <feature
       id="net.moon.util.bundlePropertiesEditor.feature"
       label="Bundle Properties Editor"
-      version="1.0.8"
+      version="1.0.9"
       provider-name="MOON">
 
    <description url="http://www.example.com/description">
