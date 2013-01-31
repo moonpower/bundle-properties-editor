@@ -2,7 +2,7 @@
 <feature
       id="net.moon.util.bundlePropertiesEditor.feature"
       label="Bundle Properties Editor"
-      version="1.0.6"
+      version="1.0.7"
       provider-name="MOON">
 
    <description url="http://www.example.com/description">
@@ -30,6 +30,8 @@
       <import plugin="org.eclipse.emf.ecore" version="2.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.editors" version="3.7.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.ui" version="3.7.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface.text" version="3.7.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.pde.ui" version="3.6.100" match="greaterOrEqual"/>
    </requires>
 
    <plugin
