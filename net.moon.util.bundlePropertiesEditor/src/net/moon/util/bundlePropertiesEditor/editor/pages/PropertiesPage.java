@@ -177,7 +177,8 @@ public class PropertiesPage extends AbstractPropertiesPage {
 				List<Property> tempList = new ArrayList<Property>();
 				tempList.addAll(eachProperties.getProperty());
 				for (Property eachProperty : tempList) {
-					if (each.getOldKey().equals(eachProperty.getOldKey())
+					if (each.getOldKey().toUpperCase()
+							.equals(eachProperty.getOldKey().toUpperCase())
 							&& count == 0) {
 						each.getSubProperty().add(eachProperty);
 						count++;
