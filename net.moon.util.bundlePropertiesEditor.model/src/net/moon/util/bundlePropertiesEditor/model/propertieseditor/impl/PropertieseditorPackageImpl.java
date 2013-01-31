@@ -293,6 +293,15 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getPropertiesEditor_Modified() {
+		return (EAttribute)propertiesEditorEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getDefaultProperty() {
 		return defaultPropertyEClass;
 	}
@@ -433,6 +442,7 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 		propertiesEditorEClass = createEClass(PROPERTIES_EDITOR);
 		createEReference(propertiesEditorEClass, PROPERTIES_EDITOR__SUB_PROPERTIES);
 		createEReference(propertiesEditorEClass, PROPERTIES_EDITOR__DEFAULT_PROPERTIES);
+		createEAttribute(propertiesEditorEClass, PROPERTIES_EDITOR__MODIFIED);
 
 		defaultPropertyEClass = createEClass(DEFAULT_PROPERTY);
 		createEReference(defaultPropertyEClass, DEFAULT_PROPERTY__SUB_PROPERTY);
@@ -503,6 +513,7 @@ public class PropertieseditorPackageImpl extends EPackageImpl implements Propert
 		initEClass(propertiesEditorEClass, PropertiesEditor.class, "PropertiesEditor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPropertiesEditor_SubProperties(), this.getSubProperties(), null, "subProperties", null, 0, -1, PropertiesEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertiesEditor_DefaultProperties(), this.getDefaultProperties(), null, "defaultProperties", null, 0, 1, PropertiesEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPropertiesEditor_Modified(), ecorePackage.getEBoolean(), "modified", null, 0, 1, PropertiesEditor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(defaultPropertyEClass, DefaultProperty.class, "DefaultProperty", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDefaultProperty_SubProperty(), this.getProperty(), null, "subProperty", null, 0, -1, DefaultProperty.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

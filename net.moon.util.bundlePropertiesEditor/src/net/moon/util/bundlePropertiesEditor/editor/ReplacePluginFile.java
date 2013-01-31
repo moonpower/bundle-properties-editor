@@ -80,9 +80,91 @@ public class ReplacePluginFile {
 	}
 
 	public static void saveFiles(PropertiesEditor propertiesEditor) {
+		IFile defaultFile = propertiesEditor.getDefaultProperties().getFile();
 		PropertiesRelativeFile relativeFile = new PropertiesRelativeFile(
-				propertiesEditor.getDefaultProperties().getFile());
+				defaultFile);
+		if (defaultFile.getName().equals("bundle.properties")) {
+			savePluginAndManifest(propertiesEditor, relativeFile);
+		}
+		saveDefaultProperties(propertiesEditor, relativeFile);
+		if (propertiesEditor.getSubProperties().size() > 0
+				|| propertiesEditor.getSubProperties() != null) {
+			saveSubProperties(propertiesEditor, relativeFile);
+		}
+		refreshModel(propertiesEditor);
+		System.out.println("저장 완료");
+	}
 
+	private static void saveDefaultProperties(
+			PropertiesEditor propertiesEditor,
+			PropertiesRelativeFile relativeFile) {
+		DefaultProperties defaultProperties = propertiesEditor
+				.getDefaultProperties();
+		StringBuffer buffer = new StringBuffer();
+		int annotationSize = defaultProperties.getAnnotation().size();
+		for (Annotation eachAnnotation : defaultProperties.getAnnotation()) {
+			buffer.append(eachAnnotation.getContent());
+			if (defaultProperties.getAnnotation().indexOf(eachAnnotation) < annotationSize - 1) {
+				buffer.append("\r\n");
+			}
+			else {
+				buffer.append("\r\n");
+			}
+		}
+
+		int size = defaultProperties.getProperty().size();
+		for (DefaultProperty each : defaultProperties.getProperty()) {
+
+			if (each.getValue() != null && !(each.getValue().equals(""))) {
+				buffer.append(each.getKey() + " = " + each.getValue());
+				if (defaultProperties.getProperty().indexOf(each) < size - 1) {
+					buffer.append("\r\n");
+				}
+			}
+
+		}
+		relativeFile.savePropertiesFile(defaultProperties.getFile(),
+				buffer.toString());
+	}
+
+	private static void saveSubProperties(PropertiesEditor propertiesEditor,
+			PropertiesRelativeFile relativeFile) {
+		StringBuffer buffer;
+		int size = propertiesEditor.getSubProperties().size();
+		EList<SubProperties> subProperties = propertiesEditor
+				.getSubProperties();
+		EList<DefaultProperty> property2 = propertiesEditor
+				.getDefaultProperties().getProperty();
+		for (int i = 0; i < size; i++) {
+			buffer = new StringBuffer();
+			int annotationSize = subProperties.get(i).getAnnotation().size();
+			for (Annotation eachAnnotation : subProperties.get(i)
+					.getAnnotation()) {
+				buffer.append(eachAnnotation.getContent());
+				if (subProperties.get(i).getAnnotation()
+						.indexOf(eachAnnotation) < annotationSize - 1) {
+					buffer.append("\r\n");
+				}
+
+			}
+
+			for (DefaultProperty eachProperty : property2) {
+				String key = eachProperty.getSubProperty().get(i).getKey();
+				String value = eachProperty.getSubProperty().get(i).getValue();
+				if (value != null && !(value.equals(""))) {
+					buffer.append("\r\n");
+					buffer.append(key + " = " + value);
+				}
+			}
+
+			relativeFile.savePropertiesFile(subProperties.get(i).getFile(),
+					buffer.toString());
+		}
+	}
+
+	private static void savePluginAndManifest(
+			PropertiesEditor propertiesEditor,
+			PropertiesRelativeFile relativeFile) {
 		IFile manifestFile = relativeFile.loadManifestFile();
 		IFile pluginFile = relativeFile.loadPluginFile();
 
@@ -103,7 +185,8 @@ public class ReplacePluginFile {
 						"\"%" + newKey + "\"");
 			}
 			if (pluginText != null) {
-				pluginText = pluginText.replace("%" + oldKey, "%" + newKey);
+				pluginText = pluginText.replace("\"%" + oldKey + "\"", "\"%"
+						+ newKey + "\"");
 			}
 
 		}
@@ -131,47 +214,6 @@ public class ReplacePluginFile {
 		if (pluginFile != null) {
 			relativeFile.savePluginFile(pluginText);
 		}
-
-		DefaultProperties defaultProperties = propertiesEditor
-				.getDefaultProperties();
-		StringBuffer buffer = new StringBuffer();
-		for (Annotation eachAnnotation : defaultProperties.getAnnotation()) {
-			buffer.append(eachAnnotation.getContent());
-		}
-		for (DefaultProperty each : defaultProperties.getProperty()) {
-
-			buffer.append("\r\n");
-			buffer.append(each.getKey() + " = " + each.getValue());
-
-		}
-		relativeFile.savePropertiesFile(defaultProperties.getFile(),
-				buffer.toString());
-
-		int size = propertiesEditor.getSubProperties().size();
-		EList<SubProperties> subProperties = propertiesEditor
-				.getSubProperties();
-		EList<DefaultProperty> property2 = propertiesEditor
-				.getDefaultProperties().getProperty();
-		for (int i = 0; i < size; i++) {
-			buffer = new StringBuffer();
-			for (Annotation eachAnnotation : subProperties.get(i)
-					.getAnnotation()) {
-				buffer.append(eachAnnotation.getContent());
-			}
-
-			for (DefaultProperty eachProperty : property2) {
-				buffer.append("\r\n");
-				buffer.append(eachProperty.getSubProperty().get(i).getKey()
-						+ " = "
-						+ eachProperty.getSubProperty().get(i).getValue());
-			}
-
-			relativeFile.savePropertiesFile(subProperties.get(i).getFile(),
-					buffer.toString());
-		}
-
-		refreshModel(propertiesEditor);
-		System.out.println("저장 완료");
 	}
 
 	private static void refreshModel(PropertiesEditor properties) {

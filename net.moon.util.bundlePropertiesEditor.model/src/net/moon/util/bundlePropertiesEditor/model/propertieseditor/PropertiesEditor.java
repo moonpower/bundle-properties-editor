@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#getSubProperties <em>Sub Properties</em>}</li>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#getDefaultProperties <em>Default Properties</em>}</li>
+ *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#isModified <em>Modified</em>}</li>
  * </ul>
  * </p>
  *
@@ -65,5 +66,31 @@ public interface PropertiesEditor extends EObject {
 	 * @generated
 	 */
 	void setDefaultProperties(DefaultProperties value);
+
+	/**
+	 * Returns the value of the '<em><b>Modified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Modified</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Modified</em>' attribute.
+	 * @see #setModified(boolean)
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertieseditorPackage#getPropertiesEditor_Modified()
+	 * @model
+	 * @generated
+	 */
+	boolean isModified();
+
+	/**
+	 * Sets the value of the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#isModified <em>Modified</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Modified</em>' attribute.
+	 * @see #isModified()
+	 * @generated
+	 */
+	void setModified(boolean value);
 
 } // PropertiesEditor

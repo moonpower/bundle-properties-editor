@@ -122,12 +122,19 @@ public class StringUtil {
 				buf.appendCodePoint(cp);
 			}
 			catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
 		m.appendTail(buf);
 		String s = null;
 		s = buf.toString();
 		return s;
+	}
+
+	public static String getUnicodeToText(String str) {
+		String unicodeTextToText = getUnicodeTextToText(str);
+		String result = getUnicodeToUnicodeText(unicodeTextToText);
+		return result;
 	}
 
 	/**
@@ -222,6 +229,7 @@ public class StringUtil {
 		}
 		stream.close();
 		buffer.close();
+
 		String result = new String(buffer.toByteArray());
 
 		return result;

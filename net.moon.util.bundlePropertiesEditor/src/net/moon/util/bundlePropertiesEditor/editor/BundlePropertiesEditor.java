@@ -1,5 +1,13 @@
 package net.moon.util.bundlePropertiesEditor.editor;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import net.moon.util.bundlePropertiesEditor.DebugStream;
+import net.moon.util.bundlePropertiesEditor.editor.pages.PropertiesPage;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Properties;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor;
 
@@ -11,20 +19,15 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
 public class BundlePropertiesEditor extends MultiPageEditorPart {
 	public static final String id = "com.moon.util.editor";
 
-	private PropertiesFileEditor propertiesFileEditor;
 	private PropertiesPage propertiesPage;
 	private PropertiesEditor propertiesEditor;
-
-	private FileEditorInput fileEditorInput;
-
-	private TextEditor textEditor;
+	private Map<String, PropertiesFileEditor> propertiesMap = new HashMap<String, PropertiesFileEditor>();
 
 	public BundlePropertiesEditor() {
 
@@ -35,14 +38,28 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 		if (getEditorInput() == null) {
 			return;
 		}
-
-		if (getActivePage() == 0 && propertiesPage.isPageModified()) {
+		propertiesPage.setSaving(true);
+		if (getActivePage() == 0 && propertiesEditor.isModified()) {
 
 			ReplacePluginFile.saveFiles(propertiesEditor);
-			propertiesFileEditor.doSave(monitor);
-			propertiesPage.setPageModified(false);
-			propertiesPage.refresh();
+			propertiesEditor.setModified(false);
+			propertiesPage.refreshCheckboxTableViewer();
+
 		}
+		Set<Entry<String, PropertiesFileEditor>> entrySet = propertiesMap
+				.entrySet();
+		Iterator<Entry<String, PropertiesFileEditor>> iterator = entrySet
+				.iterator();
+		while (iterator.hasNext()) {
+			Entry<String, PropertiesFileEditor> next = iterator.next();
+			PropertiesFileEditor propertiesFileEditor2 = propertiesMap.get(next
+					.getKey());
+			if (propertiesFileEditor2.isDirty()) {
+				propertiesFileEditor2.doSave(monitor);
+			}
+		}
+
+		propertiesPage.setSaving(false);
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 
 	}
@@ -73,10 +90,8 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 			return;
 		}
 
-		if (getActivePage() == 0 && propertiesPage.isPageModified()) {
-			propertiesPage.setPageModified(false);
-			propertiesFileEditor.doSaveAs();
-			setInput(propertiesFileEditor.getEditorInput());
+		if (getActivePage() == 0 && propertiesEditor.isModified()) {
+			propertiesEditor.setModified(false);
 
 		}
 		if (isDirty()) {
@@ -88,16 +103,13 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 	@Override
 	public void init(IEditorSite site, IEditorInput input)
 			throws PartInitException {
-
+		DebugStream.activate();
 		if (!(input instanceof FileEditorInput)) {
 			setInput(input);
 			setSite(site);
 			return;
 		}
 
-		if (input instanceof FileEditorInput) {
-			fileEditorInput = (FileEditorInput) input;
-		}
 		setInput(input);
 		setSite(site);
 
@@ -105,7 +117,7 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 
 	@Override
 	public boolean isDirty() {
-		return propertiesPage.isPageModified();
+		return propertiesEditor.isModified();
 	}
 
 	@Override
@@ -116,7 +128,7 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 	@Override
 	protected void handlePropertyChange(int propertyId) {
 		if (propertyId == IEditorPart.PROP_DIRTY) {
-			propertiesPage.setPageModified(isDirty());
+			propertiesEditor.setModified(isDirty());
 		}
 		super.handlePropertyChange(propertyId);
 	}
@@ -136,29 +148,21 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 			createSourcePage(each.getFile());
 		}
 
-		PropertiesRelativeFile relativeFile = new PropertiesRelativeFile(
-				fileEditorInput.getFile());
-
-		IFile loadManifestFile = relativeFile.loadManifestFile();
-		if (loadManifestFile != null) {
-			createManifestPage(loadManifestFile);
-		}
-		IFile loadPluginFile = relativeFile.loadPluginFile();
-		if (loadPluginFile != null) {
-			createManifestPage(loadPluginFile);
-		}
 	}
 
 	private void createPropertiesPage() {
 
 		int index = addPage(propertiesPage);
 
-		setPageText(index, "Properties");
+		setPageText(index, "PropertiesEditor");
 	}
 
+	@SuppressWarnings("restriction")
 	private void createSourcePage(IFile file) {
 		try {
-			propertiesFileEditor = new PropertiesFileEditor();
+			PropertiesFileEditor propertiesFileEditor = new PropertiesFileEditor();
+
+			propertiesMap.put(file.getName(), propertiesFileEditor);
 			int index = addPage(propertiesFileEditor, new FileEditorInput(file));
 			setPageText(index, file.getName());
 
@@ -169,24 +173,13 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 
 	}
 
-	private void createManifestPage(IFile file) {
-		try {
-			textEditor = new TextEditor();
-			int index = addPage(textEditor, new FileEditorInput(file));
-			setPageText(index, file.getName());
-		}
-		catch (PartInitException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Override
-	protected void firePropertyChange(int propertyId) {
+	public void firePropertyChange(int propertyId) {
 		super.firePropertyChange(propertyId);
 	}
 
 	@Override
-	protected Composite getContainer() {
+	public Composite getContainer() {
 		return super.getContainer();
 	}
 }

@@ -223,13 +223,22 @@ public interface PropertieseditorPackage extends EPackage {
 	int PROPERTIES_EDITOR__DEFAULT_PROPERTIES = 1;
 
 	/**
+	 * The feature id for the '<em><b>Modified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTIES_EDITOR__MODIFIED = 2;
+
+	/**
 	 * The number of structural features of the '<em>Properties Editor</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTIES_EDITOR_FEATURE_COUNT = 2;
+	int PROPERTIES_EDITOR_FEATURE_COUNT = 3;
 
 
 	/**
@@ -643,6 +652,17 @@ public interface PropertieseditorPackage extends EPackage {
 	EReference getPropertiesEditor_DefaultProperties();
 
 	/**
+	 * Returns the meta object for the attribute '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#isModified <em>Modified</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Modified</em>'.
+	 * @see net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor#isModified()
+	 * @see #getPropertiesEditor()
+	 * @generated
+	 */
+	EAttribute getPropertiesEditor_Modified();
+
+	/**
 	 * Returns the meta object for class '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty <em>Default Property</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -908,6 +928,14 @@ public interface PropertieseditorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROPERTIES_EDITOR__DEFAULT_PROPERTIES = eINSTANCE.getPropertiesEditor_DefaultProperties();
+
+		/**
+		 * The meta object literal for the '<em><b>Modified</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROPERTIES_EDITOR__MODIFIED = eINSTANCE.getPropertiesEditor_Modified();
 
 		/**
 		 * The meta object literal for the '{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.DefaultPropertyImpl <em>Default Property</em>}' class.

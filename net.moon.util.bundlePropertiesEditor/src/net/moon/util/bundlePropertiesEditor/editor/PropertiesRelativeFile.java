@@ -18,16 +18,16 @@ public class PropertiesRelativeFile {
 	private IFile pluginFile;
 	private IFile manifestFile;
 	private List<IFile> list;
-	private IFile defaultFile;
+	private IFile file;
 
-	public PropertiesRelativeFile(IFile defaultFile) {
-		this.defaultFile = defaultFile;
+	public PropertiesRelativeFile(IFile file) {
+		this.file = file;
 	}
 
 	public List<IFile> loadRelativeLanguageFile() {
-		IProject project = defaultFile.getProject();
+		IProject project = file.getProject();
 
-		String fileFullName = defaultFile.getName();
+		String fileFullName = file.getName();
 		int indexOf = fileFullName.indexOf('.');
 		final String fileName = fileFullName.substring(0, indexOf);
 
@@ -37,8 +37,21 @@ public class PropertiesRelativeFile {
 
 	}
 
+	public IFile loadRelativeDefaultFile() {
+		IProject project = file.getProject();
+
+		String fileFullName = file.getName();
+		int indexOf = fileFullName.indexOf("_");
+		String fileName = fileFullName.substring(0, indexOf);
+		fileName += ".properties";
+		IFile defaultFile = getFile(fileName, project);
+
+		return defaultFile;
+
+	}
+
 	public IFile loadPluginFile() {
-		IProject project = defaultFile.getProject();
+		IProject project = file.getProject();
 
 		pluginFile = getFile("plugin.xml", project);
 
@@ -46,7 +59,7 @@ public class PropertiesRelativeFile {
 	}
 
 	public IFile loadManifestFile() {
-		IProject project = defaultFile.getProject();
+		IProject project = file.getProject();
 
 		manifestFile = getFile("MANIFEST.MF", project);
 
@@ -60,14 +73,14 @@ public class PropertiesRelativeFile {
 	 * @param text
 	 */
 	public void savePropertiesFile(String text) {
-		if (defaultFile == null || text == null) {
+		if (file == null || text == null) {
 			return;
 		}
 		try {
 			ByteArrayInputStream in = null;
 			in = new ByteArrayInputStream(text.getBytes("ISO-8859-1"));
 
-			defaultFile.setContents(in, true, true, new NullProgressMonitor());
+			file.setContents(in, true, true, new NullProgressMonitor());
 		}
 		catch (Exception e) {
 			e.printStackTrace();

@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <ul>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertiesEditorImpl#getSubProperties <em>Sub Properties</em>}</li>
  *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertiesEditorImpl#getDefaultProperties <em>Default Properties</em>}</li>
+ *   <li>{@link net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertiesEditorImpl#isModified <em>Modified</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,6 +58,24 @@ public class PropertiesEditorImpl extends EObjectImpl implements PropertiesEdito
 	 * @ordered
 	 */
 	protected DefaultProperties defaultProperties;
+	/**
+	 * The default value of the '{@link #isModified() <em>Modified</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isModified()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean MODIFIED_EDEFAULT = false;
+	/**
+	 * The cached value of the '{@link #isModified() <em>Modified</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isModified()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean modified = MODIFIED_EDEFAULT;
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -136,6 +155,27 @@ public class PropertiesEditorImpl extends EObjectImpl implements PropertiesEdito
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isModified() {
+		return modified;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModified(boolean newModified) {
+		boolean oldModified = modified;
+		modified = newModified;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PropertieseditorPackage.PROPERTIES_EDITOR__MODIFIED, oldModified, modified));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -159,6 +199,8 @@ public class PropertiesEditorImpl extends EObjectImpl implements PropertiesEdito
 				return getSubProperties();
 			case PropertieseditorPackage.PROPERTIES_EDITOR__DEFAULT_PROPERTIES:
 				return getDefaultProperties();
+			case PropertieseditorPackage.PROPERTIES_EDITOR__MODIFIED:
+				return isModified();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -179,6 +221,9 @@ public class PropertiesEditorImpl extends EObjectImpl implements PropertiesEdito
 			case PropertieseditorPackage.PROPERTIES_EDITOR__DEFAULT_PROPERTIES:
 				setDefaultProperties((DefaultProperties)newValue);
 				return;
+			case PropertieseditorPackage.PROPERTIES_EDITOR__MODIFIED:
+				setModified((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -197,6 +242,9 @@ public class PropertiesEditorImpl extends EObjectImpl implements PropertiesEdito
 			case PropertieseditorPackage.PROPERTIES_EDITOR__DEFAULT_PROPERTIES:
 				setDefaultProperties((DefaultProperties)null);
 				return;
+			case PropertieseditorPackage.PROPERTIES_EDITOR__MODIFIED:
+				setModified(MODIFIED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -213,8 +261,26 @@ public class PropertiesEditorImpl extends EObjectImpl implements PropertiesEdito
 				return subProperties != null && !subProperties.isEmpty();
 			case PropertieseditorPackage.PROPERTIES_EDITOR__DEFAULT_PROPERTIES:
 				return defaultProperties != null;
+			case PropertieseditorPackage.PROPERTIES_EDITOR__MODIFIED:
+				return modified != MODIFIED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (modified: ");
+		result.append(modified);
+		result.append(')');
+		return result.toString();
 	}
 
 } //PropertiesEditorImpl
