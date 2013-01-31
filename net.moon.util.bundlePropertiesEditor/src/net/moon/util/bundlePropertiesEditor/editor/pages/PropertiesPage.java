@@ -52,6 +52,7 @@ public class PropertiesPage extends AbstractPropertiesPage {
 	private final int DEFAULT_NLS = 0;
 	private final int SUB_NLS = 1;
 	private List<CheckboxTableViewer> list = new ArrayList<CheckboxTableViewer>();
+	private List<SourceViewer> sourceViewerList = new ArrayList<SourceViewer>();
 
 	public PropertiesPage(BundlePropertiesEditor bundlePropertiesEditor) {
 		super(bundlePropertiesEditor);
@@ -122,8 +123,8 @@ public class PropertiesPage extends AbstractPropertiesPage {
 		Menu createContextMenu = menuManager.createContextMenu(sashForm);
 		tableViewer.getTable().setMenu(createContextMenu);
 
-		sourceViewer = new SourceViewer(sashForm, null, SWT.V_SCROLL
-				| SWT.H_SCROLL | SWT.BORDER);
+		SourceViewer sourceViewer = new SourceViewer(sashForm, null,
+				SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
 		sourceViewer.setEditable(false);
 		sourceViewer.getTextWidget().setFont(JFaceResources.getTextFont());
 		IColorManager colorManager = ColorManager.getDefault();
@@ -155,6 +156,7 @@ public class PropertiesPage extends AbstractPropertiesPage {
 		tableViewer.setData("sourceViewer", sourceViewer);
 		sashForm.setWeights(new int[] { 2, 1 });
 		tableViewer.setInput(propertiesEditor.getDefaultProperties());
+		sourceViewerList.add(sourceViewer);
 		list.add(tableViewer);
 		// createButtonBar(container, tableViewer);
 
@@ -213,13 +215,14 @@ public class PropertiesPage extends AbstractPropertiesPage {
 	private void addProperties(IFile file) {
 		String read = null;
 		try {
-
 			read = StringUtil.read(file.getContents());
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		if (read == null) {
+			return;
+		}
 		BundlePropertiesParser propertiesParser = new BundlePropertiesParser(
 				file.getName());
 		if (file.getName().contains("_")) {
@@ -304,6 +307,37 @@ public class PropertiesPage extends AbstractPropertiesPage {
 		for (CheckboxTableViewer each : list) {
 			each.refresh();
 		}
+	}
+
+	public void refreshDocument() {
+		Document document = new Document();
+		IFile loadPluginFile = new PropertiesRelativeFile(propertiesEditor
+				.getDefaultProperties().getFile()).loadPluginFile();
+
+		String read = null;
+		try {
+			read = StringUtil.read(loadPluginFile.getContents(), "UTF-8");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		catch (CoreException e) {
+			e.printStackTrace();
+		}
+		IDocumentPartitioner partitioner = new FastPartitioner(
+				new XMLPartitionScanner(), new String[] {
+						XMLPartitionScanner.XML_TAG,
+						XMLPartitionScanner.XML_COMMENT });
+		partitioner.connect(document);
+
+		document.setDocumentPartitioner(partitioner);
+		document.set(read);
+
+		for (SourceViewer each : sourceViewerList) {
+			each.setDocument(document);
+
+		}
+		findReplaceDocumentAdapter = new FindReplaceDocumentAdapter(document);
 	}
 
 }

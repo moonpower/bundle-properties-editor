@@ -13,9 +13,13 @@ import org.eclipse.swt.widgets.Composite;
 
 public class KeyEditingSupport extends EditingSupport {
 
+	private PropertiesEditor propertiesEditor;
+
 	public KeyEditingSupport(ColumnViewer viewer,
 			PropertiesEditor propertiesEditor) {
 		super(viewer);
+		this.propertiesEditor = propertiesEditor;
+
 	}
 
 	@Override
@@ -52,6 +56,14 @@ public class KeyEditingSupport extends EditingSupport {
 		}
 
 		String result = StringUtil.getUnicodeTextToText(text);
+		int count = 0;
+		for (DefaultProperty each : this.propertiesEditor
+				.getDefaultProperties().getProperty()) {
+			if (each.getOldKey().toUpperCase().equals(result)
+					&& each.getKey().toUpperCase().equals(result)) {
+				return;
+			}
+		}
 
 		property.setKey(result);
 		for (Property each : property.getSubProperty()) {

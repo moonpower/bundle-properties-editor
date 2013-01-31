@@ -43,7 +43,6 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 
 			ReplacePluginFile.saveFiles(propertiesEditor);
 			propertiesEditor.setModified(false);
-			propertiesPage.refreshCheckboxTableViewer();
 
 		}
 		Set<Entry<String, PropertiesFileEditor>> entrySet = propertiesMap
@@ -58,7 +57,8 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 				propertiesFileEditor2.doSave(monitor);
 			}
 		}
-
+		propertiesPage.refreshCheckboxTableViewer();
+		propertiesPage.refreshDocument();
 		propertiesPage.setSaving(false);
 		firePropertyChange(IEditorPart.PROP_DIRTY);
 

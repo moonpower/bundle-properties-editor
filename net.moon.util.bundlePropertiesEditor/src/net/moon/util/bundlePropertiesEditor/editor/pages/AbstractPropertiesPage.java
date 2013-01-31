@@ -1,13 +1,11 @@
 package net.moon.util.bundlePropertiesEditor.editor.pages;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.moon.util.bundlePropertiesEditor.StringUtil;
 import net.moon.util.bundlePropertiesEditor.dialogs.MergeDialog;
 import net.moon.util.bundlePropertiesEditor.editor.BundlePropertiesEditor;
-import net.moon.util.bundlePropertiesEditor.editor.PropertiesRelativeFile;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge;
@@ -15,17 +13,12 @@ import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEdi
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Property;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorFactoryImpl;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.FindReplaceDocumentAdapter;
-import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -38,7 +31,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TableViewerFocusCellManager;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.pde.internal.ui.editor.text.XMLPartitionScanner;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ModifyEvent;
@@ -69,7 +61,6 @@ public abstract class AbstractPropertiesPage extends Composite {
 	private ViewerCell currentCell;
 	private boolean isSaving = false;
 	protected FindReplaceDocumentAdapter findReplaceDocumentAdapter;
-	protected SourceViewer sourceViewer;
 
 	public AbstractPropertiesPage(BundlePropertiesEditor bundlePropertiesEditor) {
 		super(bundlePropertiesEditor.getContainer(), SWT.NORMAL);
@@ -245,6 +236,7 @@ public abstract class AbstractPropertiesPage extends Composite {
 				ViewerCell viewerCell = (ViewerCell) event.getSource();
 
 				if (isSaving == false) {
+
 					findReplaceDocument(tableViewer, viewerCell, false);
 				}
 				currentCell = viewerCell;
@@ -333,9 +325,10 @@ public abstract class AbstractPropertiesPage extends Composite {
 				EList<DefaultProperty> properties = propertiesEditor
 						.getDefaultProperties().getProperty();
 				boolean isConflict = false;
-				for (Property each : properties) {
+				for (DefaultProperty each : properties) {
 					if (!(each.equals(property))
-							&& each.getKey() == property.getKey()) {
+							&& each.getKey().toUpperCase()
+									.equals(property.getKey().toUpperCase())) {
 						isConflict = true;
 					}
 
@@ -482,26 +475,4 @@ public abstract class AbstractPropertiesPage extends Composite {
 		this.isSaving = isSave;
 	}
 
-	public void refreshDocument() {
-		Document document = new Document();
-		IFile loadPluginFile = new PropertiesRelativeFile(propertiesEditor
-				.getDefaultProperties().getFile()).loadPluginFile();
-
-		String read = null;
-		try {
-			read = StringUtil.read(loadPluginFile.getContents(), "UTF-8");
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		catch (CoreException e) {
-			e.printStackTrace();
-		}
-		IDocumentPartitioner partitioner = new FastPartitioner(
-				new XMLPartitionScanner(), new String[] {
-						XMLPartitionScanner.XML_TAG,
-						XMLPartitionScanner.XML_COMMENT });
-		sourceViewer.setDocument(document);
-		findReplaceDocumentAdapter = new FindReplaceDocumentAdapter(document);
-	}
 }

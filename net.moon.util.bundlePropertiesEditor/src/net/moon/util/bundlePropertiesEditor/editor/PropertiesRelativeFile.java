@@ -55,7 +55,12 @@ public class PropertiesRelativeFile {
 		IProject project = file.getProject();
 
 		pluginFile = project.getFile("plugin.xml");
-
+		try {
+			pluginFile.refreshLocal(IFile.DEPTH_ONE, new NullProgressMonitor());
+		}
+		catch (CoreException e) {
+			e.printStackTrace();
+		}
 		return pluginFile;
 	}
 
@@ -63,7 +68,13 @@ public class PropertiesRelativeFile {
 		IProject project = file.getProject();
 
 		manifestFile = project.getFile("META-INF/MANIFEST.MF");
-
+		try {
+			manifestFile.refreshLocal(IFile.DEPTH_ONE,
+					new NullProgressMonitor());
+		}
+		catch (CoreException e) {
+			e.printStackTrace();
+		}
 		return manifestFile;
 
 	}
@@ -156,6 +167,12 @@ public class PropertiesRelativeFile {
 		IPath removeLastSegments = file.getFullPath().removeLastSegments(1);
 		IFolder folder = project.getFolder(removeLastSegments
 				.removeFirstSegments(1));
+		try {
+			folder.refreshLocal(IFolder.DEPTH_ONE, new NullProgressMonitor());
+		}
+		catch (CoreException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			folder.accept(new IResourceVisitor() {
 
