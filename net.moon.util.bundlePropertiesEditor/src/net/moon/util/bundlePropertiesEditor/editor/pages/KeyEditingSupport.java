@@ -56,11 +56,11 @@ public class KeyEditingSupport extends EditingSupport {
 		}
 
 		String result = StringUtil.getUnicodeTextToText(text);
-		int count = 0;
 		for (DefaultProperty each : this.propertiesEditor
 				.getDefaultProperties().getProperty()) {
-			if (each.getOldKey().toUpperCase().equals(result)
-					&& each.getKey().toUpperCase().equals(result)) {
+			if (!(each.equals(property))
+					&& (each.getKey().toUpperCase()
+							.equals(result.toUpperCase()))) {
 				return;
 			}
 		}
