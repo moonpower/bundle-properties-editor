@@ -502,5 +502,6 @@ public abstract class AbstractPropertiesPage extends Composite {
 						XMLPartitionScanner.XML_TAG,
 						XMLPartitionScanner.XML_COMMENT });
 		sourceViewer.setDocument(document);
+		findReplaceDocumentAdapter = new FindReplaceDocumentAdapter(document);
 	}
 }
