@@ -3,7 +3,7 @@
    <description name="Moon&apos;s Bundle Properties Editor" url="https://raw.github.com/moonpower/bundle-properties-editor/master/com.moon.util.update">
       Bundle Properties Editor
    </description>
-   <feature url="features/net.moon.util.bundlePropertiesEditor.feature_1.1.1.jar" id="net.moon.util.bundlePropertiesEditor.feature" version="1.1.1">
+   <feature url="features/net.moon.util.bundlePropertiesEditor.feature_1.1.2.jar" id="net.moon.util.bundlePropertiesEditor.feature" version="1.1.2">
       <category name="net.moon.util"/>
    </feature>
    <category-def name="net.moon.util" label="Properties Editor"/>

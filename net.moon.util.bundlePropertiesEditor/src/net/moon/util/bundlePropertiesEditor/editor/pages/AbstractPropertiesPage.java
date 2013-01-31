@@ -337,6 +337,12 @@ public abstract class AbstractPropertiesPage extends Composite {
 					cell.setBackground(Display.getDefault().getSystemColor(
 							SWT.COLOR_INFO_BACKGROUND));
 				}
+				else if (cell.getBackground().equals(
+						Display.getDefault().getSystemColor(
+								SWT.COLOR_INFO_BACKGROUND))) {
+					cell.setBackground(Display.getDefault().getSystemColor(
+							SWT.COLOR_WHITE));
+				}
 
 				refreshModel();
 			}
