@@ -6,8 +6,6 @@ import java.util.List;
 
 import net.moon.util.bundlePropertiesEditor.BundlePropertiesParser;
 import net.moon.util.bundlePropertiesEditor.StringUtil;
-import net.moon.util.bundlePropertiesEditor.actions.AddAction;
-import net.moon.util.bundlePropertiesEditor.actions.DeleteAction;
 import net.moon.util.bundlePropertiesEditor.actions.MergeAction;
 import net.moon.util.bundlePropertiesEditor.editor.BundlePropertiesEditor;
 import net.moon.util.bundlePropertiesEditor.editor.PropertiesRelativeFile;
@@ -112,14 +110,16 @@ public class PropertiesPage extends AbstractPropertiesPage {
 			break;
 		}
 
-		DeleteAction deleteAction = new DeleteAction(
-				propertiesEditor.getDefaultProperties(), tableViewer);
-		MergeAction mergeAction = new MergeAction();
-		AddAction addAction = new AddAction(propertiesEditor);
+		// DeleteAction deleteAction = new DeleteAction(
+		// propertiesEditor.getDefaultProperties(), tableViewer);
+
+		MergeAction mergeAction = new MergeAction(propertiesEditor,
+				tableViewer, getEditor());
+		// AddAction addAction = new AddAction(propertiesEditor);
 		MenuManager menuManager = new MenuManager("TableViewerMenu");
-		menuManager.add(deleteAction);
+		// menuManager.add(deleteAction);
 		menuManager.add(mergeAction);
-		menuManager.add(addAction);
+		// menuManager.add(addAction);
 		Menu createContextMenu = menuManager.createContextMenu(sashForm);
 		tableViewer.getTable().setMenu(createContextMenu);
 
@@ -251,6 +251,7 @@ public class PropertiesPage extends AbstractPropertiesPage {
 
 				private void tableModified() {
 					boolean dirty = getEditor().isDirty();
+
 					propertiesEditor.setModified(true);
 					if (!dirty) {
 						getEditor().firePropertyChange(IEditorPart.PROP_DIRTY);

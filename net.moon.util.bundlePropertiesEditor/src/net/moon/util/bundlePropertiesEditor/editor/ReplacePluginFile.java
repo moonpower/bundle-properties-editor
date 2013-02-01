@@ -84,14 +84,19 @@ public class ReplacePluginFile {
 		PropertiesRelativeFile relativeFile = new PropertiesRelativeFile(
 				defaultFile);
 		if (defaultFile.getName().equals("bundle.properties")) {
+			// MANIFEST.MF plugin.xml 저장.
 			savePluginAndManifest(propertiesEditor, relativeFile);
 		}
+		// 디폴트 프로퍼티 저장.
 		saveDefaultProperties(propertiesEditor, relativeFile);
+
 		if (propertiesEditor.getSubProperties().size() > 0
 				|| propertiesEditor.getSubProperties() != null) {
+			// 서브 프로퍼티 저장.
 			saveSubProperties(propertiesEditor, relativeFile);
 		}
 		refreshModel(propertiesEditor);
+		propertiesEditor.getDefaultProperties().getMerges().clear();
 		System.out.println("저장 완료");
 	}
 
@@ -194,7 +199,8 @@ public class ReplacePluginFile {
 				.getMerges();
 
 		for (Merge each : merges) {
-			String key = each.getProperty().getKey();
+			String key = StringUtil.getUnicodeToUnicodeText(each.getProperty()
+					.getKey());
 			for (Property eachProperty : each.getMergedProperty()) {
 				if (manifestText != null) {
 					manifestText = manifestText.replace(
@@ -203,7 +209,9 @@ public class ReplacePluginFile {
 				}
 				if (pluginText != null) {
 					pluginText = pluginText.replace(
-							"%" + eachProperty.getOldKey(), "%" + key);
+							"\"%" + eachProperty.getOldKey() + "\"", "\"%"
+									+ key + "\"");
+
 				}
 			}
 

@@ -156,9 +156,16 @@ public class MergeDialog extends Dialog {
 		merge.getMergedProperty().addAll(list);
 		DefaultProperty property = PropertieseditorFactoryImpl.eINSTANCE
 				.createDefaultProperty();
-		property.setKey(keyText.getText());
-		property.setKey(valueText.getText());
+		String key = StringUtil.getUnicodeTextToText(keyText.getText().trim());
+		String value = StringUtil.getUnicodeTextToText(valueText.getText()
+				.trim());
+		property.setKey(key);
+		property.setOldKey(key);
+		property.setValue(value);
+		property.setOldValue(value);
+
 		merge.setProperty(property);
+		System.out.println(merge.getProperty());
 		System.out.println(merge.getMergedProperty());
 		super.okPressed();
 	}
