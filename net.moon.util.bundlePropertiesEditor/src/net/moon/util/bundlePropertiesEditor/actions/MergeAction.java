@@ -28,7 +28,7 @@ public class MergeAction extends Action {
 		this.propertiesEditor = propertiesEditor;
 		this.tableViewer = tableViewer;
 		this.editor = editor;
-		setText("합병");
+		setText("병합");
 	}
 
 	@Override
