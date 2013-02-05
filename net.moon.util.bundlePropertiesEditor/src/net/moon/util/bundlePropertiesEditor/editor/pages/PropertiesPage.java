@@ -187,9 +187,29 @@ public class PropertiesPage extends AbstractPropertiesPage {
 					}
 				}
 				if (count == 0) {
-					each.getSubProperty().add(
-							PropertieseditorFactoryImpl.eINSTANCE
-									.createDefaultProperty());
+					DefaultProperty createDefaultProperty = PropertieseditorFactoryImpl.eINSTANCE
+							.createDefaultProperty();
+					createDefaultProperty.eAdapters().add(new AdapterImpl() {
+						@Override
+						public void notifyChanged(Notification msg) {
+							if (msg.getEventType() == Notification.SET
+									&& !(msg.getNewValue().equals(msg
+											.getOldValue()))) {
+								tableModified();
+							}
+						}
+
+						private void tableModified() {
+							boolean dirty = getEditor().isDirty();
+							propertiesEditor.setModified(true);
+							if (!dirty) {
+								getEditor().firePropertyChange(
+										IEditorPart.PROP_DIRTY);
+							}
+
+						}
+					});
+					each.getSubProperty().add(createDefaultProperty);
 					count++;
 				}
 
