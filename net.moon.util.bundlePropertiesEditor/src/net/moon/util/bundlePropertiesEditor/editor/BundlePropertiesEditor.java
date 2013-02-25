@@ -57,7 +57,7 @@ public class BundlePropertiesEditor extends MultiPageEditorPart {
 				propertiesFileEditor2.doSave(monitor);
 			}
 		}
-		propertiesPage.refreshCheckboxTableViewer();
+		propertiesPage.refreshTableViewer();
 		propertiesPage.refreshDocument();
 		propertiesPage.setSaving(false);
 		firePropertyChange(IEditorPart.PROP_DIRTY);

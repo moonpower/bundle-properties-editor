@@ -1,6 +1,7 @@
 package net.moon.util.bundlePropertiesEditor.actions;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.moon.util.bundlePropertiesEditor.StringUtil;
@@ -15,16 +16,17 @@ import net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.Properti
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Display;
 
 public class MergeAction extends Action {
 	private PropertiesEditor propertiesEditor;
-	private CheckboxTableViewer tableViewer;
+	private TableViewer tableViewer;
 	private BundlePropertiesEditor editor;
 
 	public MergeAction(PropertiesEditor propertiesEditor,
-			CheckboxTableViewer tableViewer, BundlePropertiesEditor editor) {
+			TableViewer tableViewer, BundlePropertiesEditor editor) {
 		this.propertiesEditor = propertiesEditor;
 		this.tableViewer = tableViewer;
 		this.editor = editor;
@@ -34,16 +36,17 @@ public class MergeAction extends Action {
 	@Override
 	public void run() {
 		List<DefaultProperty> list = new ArrayList<DefaultProperty>();
-		for (DefaultProperty each : propertiesEditor.getDefaultProperties()
-				.getProperty()) {
-			boolean checked = tableViewer.getChecked(each);
-			if (checked) {
-				list.add(each);
-			}
-		}
-		if (list.size() == 0) {
+		IStructuredSelection selection = (IStructuredSelection) tableViewer
+				.getSelection();
+		if (selection.size() <= 1) {
 			return;
 		}
+		Iterator iterator = selection.iterator();
+		while (iterator.hasNext()) {
+			DefaultProperty next = (DefaultProperty) iterator.next();
+			list.add(next);
+		}
+
 		MergeDialog dialog = new MergeDialog(Display.getDefault()
 				.getActiveShell(), list);
 		if (IDialogConstants.OK_ID == dialog.open()) {

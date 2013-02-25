@@ -28,7 +28,7 @@ import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.pde.internal.ui.editor.text.ColorManager;
 import org.eclipse.pde.internal.ui.editor.text.IColorManager;
 import org.eclipse.pde.internal.ui.editor.text.XMLConfiguration;
@@ -49,7 +49,7 @@ public class PropertiesPage extends AbstractPropertiesPage {
 
 	private final int DEFAULT_NLS = 0;
 	private final int SUB_NLS = 1;
-	private List<CheckboxTableViewer> list = new ArrayList<CheckboxTableViewer>();
+	private List<TableViewer> list = new ArrayList<TableViewer>();
 	private List<SourceViewer> sourceViewerList = new ArrayList<SourceViewer>();
 
 	public PropertiesPage(BundlePropertiesEditor bundlePropertiesEditor) {
@@ -98,7 +98,7 @@ public class PropertiesPage extends AbstractPropertiesPage {
 		sashForm.setLayout(new GridLayout());
 		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		CheckboxTableViewer tableViewer = null;
+		TableViewer tableViewer = null;
 		switch (nls) {
 		case DEFAULT_NLS:
 			tableViewer = createDefaultTableViewer(sashForm);
@@ -132,17 +132,20 @@ public class PropertiesPage extends AbstractPropertiesPage {
 		Document document = new Document();
 		IFile loadPluginFile = new PropertiesRelativeFile(propertiesEditor
 				.getDefaultProperties().getFile()).loadPluginFile();
-
 		String read = null;
-		try {
-			read = StringUtil.read(loadPluginFile.getContents(), "UTF-8");
+		if (loadPluginFile.exists()) {
+
+			try {
+				read = StringUtil.read(loadPluginFile.getContents(), "UTF-8");
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			catch (CoreException e) {
+				e.printStackTrace();
+			}
 		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		catch (CoreException e) {
-			e.printStackTrace();
-		}
+
 		IDocumentPartitioner partitioner = new FastPartitioner(
 				new XMLPartitionScanner(), new String[] {
 						XMLPartitionScanner.XML_TAG,
@@ -324,8 +327,8 @@ public class PropertiesPage extends AbstractPropertiesPage {
 		propertiesEditor.getSubProperties().add(subProperties);
 	}
 
-	public void refreshCheckboxTableViewer() {
-		for (CheckboxTableViewer each : list) {
+	public void refreshTableViewer() {
+		for (TableViewer each : list) {
 			each.refresh();
 		}
 	}
@@ -334,16 +337,18 @@ public class PropertiesPage extends AbstractPropertiesPage {
 		Document document = new Document();
 		IFile loadPluginFile = new PropertiesRelativeFile(propertiesEditor
 				.getDefaultProperties().getFile()).loadPluginFile();
-
 		String read = null;
-		try {
-			read = StringUtil.read(loadPluginFile.getContents(), "UTF-8");
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		catch (CoreException e) {
-			e.printStackTrace();
+		if (loadPluginFile.exists()) {
+
+			try {
+				read = StringUtil.read(loadPluginFile.getContents(), "UTF-8");
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			catch (CoreException e) {
+				e.printStackTrace();
+			}
 		}
 		IDocumentPartitioner partitioner = new FastPartitioner(
 				new XMLPartitionScanner(), new String[] {

@@ -1,32 +1,27 @@
 package net.moon.util.bundlePropertiesEditor.editor.pages;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.moon.util.bundlePropertiesEditor.FocusCellOwnerDrawHighlighterWithFullSelection;
 import net.moon.util.bundlePropertiesEditor.StringUtil;
-import net.moon.util.bundlePropertiesEditor.dialogs.MergeDialog;
 import net.moon.util.bundlePropertiesEditor.editor.BundlePropertiesEditor;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperties;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.DefaultProperty;
-import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Merge;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.PropertiesEditor;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.Property;
 import net.moon.util.bundlePropertiesEditor.model.propertieseditor.impl.PropertieseditorFactoryImpl;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.FindReplaceDocumentAdapter;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.CellLabelProvider;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnViewerEditor;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationEvent;
 import org.eclipse.jface.viewers.ColumnViewerEditorActivationStrategy;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.FocusCellOwnerDrawHighlighter;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TableViewerEditor;
 import org.eclipse.jface.viewers.TableViewerFocusCellManager;
@@ -40,13 +35,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -75,26 +67,24 @@ public abstract class AbstractPropertiesPage extends Composite {
 
 	}
 
-	protected CheckboxTableViewer createTableViewer(Composite parent,
-			final int index) {
+	protected TableViewer createTableViewer(Composite parent, final int index) {
 		Composite container = new Composite(parent, SWT.NORMAL);
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Table table = new Table(container, SWT.FULL_SELECTION | SWT.BORDER
-				| SWT.CHECK | SWT.NO_SCROLL | SWT.V_SCROLL);
-		final CheckboxTableViewer tableViewer = new CheckboxTableViewer(table);
+		final TableViewer tableViewer = new TableViewer(container,
+				SWT.FULL_SELECTION | SWT.BORDER | SWT.NO_SCROLL | SWT.V_SCROLL);
 
 		tableViewer.setContentProvider(new TableContentProvider());
 		tableViewer.setComparator(comparator);
+		Table table = tableViewer.getTable();
 		table = tableViewer.getTable();
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		TableColumnLayout tableColumnLayout = new TableColumnLayout();
 		container.setLayout(tableColumnLayout);
-		TableViewerColumn checkBoxColumn = createCheckboxColumn(tableViewer);
 
-		int colNumber = 1;
+		int colNumber = 0;
 		TableViewerColumn keyColumn = createDefaultKeyColumn(tableViewer,
 				colNumber);
 		colNumber++;
@@ -111,8 +101,6 @@ public abstract class AbstractPropertiesPage extends Composite {
 
 		colNumber++;
 
-		TableColumn column0 = checkBoxColumn.getColumn();
-		tableColumnLayout.setColumnData(column0, new ColumnWeightData(4));
 		TableColumn column1 = keyColumn.getColumn();
 		tableColumnLayout.setColumnData(column1, new ColumnWeightData(32));
 		TableColumn column2 = defaultValueColumn.getColumn();
@@ -126,9 +114,6 @@ public abstract class AbstractPropertiesPage extends Composite {
 				if (event.keyCode == SWT.DEL) {
 					Table table = (Table) event.widget;
 					TableItem tableItem = table.getSelection()[0];
-					System.out.println(tableItem.getData());
-					// propertiesEditor.getDefaultProperties().getProperty()
-					// .remove(property);
 					tableViewer.refresh();
 				}
 			}
@@ -139,23 +124,8 @@ public abstract class AbstractPropertiesPage extends Composite {
 
 	abstract public void create();
 
-	private TableViewerColumn createCheckboxColumn(
-			CheckboxTableViewer tableViewer) {
-		TableViewerColumn checkBoxColumn = createViewerColumn(tableViewer, "",
-				30, 9, false);
-		checkBoxColumn.getColumn().setData("order", new Integer(0));
-		checkBoxColumn.setLabelProvider(new CellLabelProvider() {
-
-			@Override
-			public void update(ViewerCell cell) {
-
-			}
-		});
-		return checkBoxColumn;
-	}
-
-	private TableViewerColumn createSubValueColumn(
-			CheckboxTableViewer tableViewer, final int index, int colNumber) {
+	private TableViewerColumn createSubValueColumn(TableViewer tableViewer,
+			final int index, int colNumber) {
 		TableViewerColumn valueColumn = createViewerColumn(tableViewer, "<"
 				+ propertiesEditor.getSubProperties().get(index).getLanguage()
 				+ ">", 150, colNumber, true);
@@ -181,12 +151,13 @@ public abstract class AbstractPropertiesPage extends Composite {
 		return valueColumn;
 	};
 
-	protected CheckboxTableViewer createDefaultTableViewer(Composite parent) {
+	protected TableViewer createDefaultTableViewer(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
-		Table table = new Table(container, SWT.FULL_SELECTION | SWT.BORDER
-				| SWT.CHECK | SWT.NO_SCROLL | SWT.V_SCROLL);
-		CheckboxTableViewer tableViewer = new CheckboxTableViewer(table);
+		TableViewer tableViewer = new TableViewer(container, SWT.MULTI
+				| SWT.FULL_SELECTION | SWT.BORDER | SWT.NO_SCROLL
+				| SWT.V_SCROLL);
+		Table table = tableViewer.getTable();
 		tableViewer.setContentProvider(new TableContentProvider());
 
 		tableViewer.setComparator(comparator);
@@ -194,8 +165,6 @@ public abstract class AbstractPropertiesPage extends Composite {
 		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-
-		TableViewerColumn checkBoxColumn = createCheckboxColumn(tableViewer);
 
 		int colNumber = 1;
 
@@ -213,33 +182,44 @@ public abstract class AbstractPropertiesPage extends Composite {
 		colNumber++;
 
 		createTableViewerEditor(tableViewer);
-		TableColumn column0 = checkBoxColumn.getColumn();
 		TableColumn column1 = keyColumn.getColumn();
 		TableColumn column2 = defaultValueColumn.getColumn();
 		TableColumnLayout tableColumnLayout = new TableColumnLayout();
-		tableColumnLayout.setColumnData(column0, new ColumnWeightData(4));
 		tableColumnLayout.setColumnData(column1, new ColumnWeightData(48));
 		tableColumnLayout.setColumnData(column2, new ColumnWeightData(48));
 		container.setLayout(tableColumnLayout);
 		return tableViewer;
 	}
 
-	private void createTableViewerEditor(final CheckboxTableViewer tableViewer) {
+	private void createTableViewerEditor(final TableViewer tableViewer) {
 		TableViewerFocusCellManager manager = new TableViewerFocusCellManager(
-				tableViewer, new FocusCellOwnerDrawHighlighter(tableViewer));
+				tableViewer,
+				new FocusCellOwnerDrawHighlighterWithFullSelection(tableViewer));
 
 		ColumnViewerEditorActivationStrategy actSupport = new ColumnViewerEditorActivationStrategy(
 				tableViewer) {
 			@Override
 			protected boolean isEditorActivationEvent(
 					ColumnViewerEditorActivationEvent event) {
+				if (!(event.keyCode == SWT.ARROW_DOWN
+						|| event.keyCode == SWT.ARROW_UP
+						|| event.keyCode == SWT.ARROW_LEFT
+						|| event.keyCode == SWT.ARROW_RIGHT
+						|| event.keyCode == SWT.PAGE_DOWN
+						|| event.keyCode == SWT.PAGE_UP
+						|| event.eventType == ColumnViewerEditorActivationEvent.MOUSE_CLICK_SELECTION || event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION)) {
+					return getEventType(event);
+				}
 				ViewerCell viewerCell = (ViewerCell) event.getSource();
-
 				if (isSaving == false) {
 
 					findReplaceDocument(tableViewer, viewerCell, false);
 				}
 				currentCell = viewerCell;
+				return getEventType(event);
+			}
+
+			private boolean getEventType(ColumnViewerEditorActivationEvent event) {
 				return event.eventType == ColumnViewerEditorActivationEvent.TRAVERSAL
 						|| event.eventType == ColumnViewerEditorActivationEvent.MOUSE_DOUBLE_CLICK_SELECTION
 						|| (event.eventType == ColumnViewerEditorActivationEvent.KEY_PRESSED && event.keyCode == SWT.CR)
@@ -255,10 +235,15 @@ public abstract class AbstractPropertiesPage extends Composite {
 						| ColumnViewerEditor.KEYBOARD_ACTIVATION);
 	}
 
-	private void findReplaceDocument(final CheckboxTableViewer tableViewer,
+	private void findReplaceDocument(final TableViewer tableViewer,
 			ViewerCell viewerCell, boolean isReplace) {
 		SourceViewer sourceViewer = (SourceViewer) tableViewer
 				.getData("sourceViewer");
+		IDocument document = sourceViewer.getDocument();
+		String doc = document.get();
+		if (doc.isEmpty()) {
+			return;
+		}
 		DefaultProperty property = (DefaultProperty) viewerCell.getElement();
 		String unicodeKey = property.getOldKey();
 
@@ -283,7 +268,7 @@ public abstract class AbstractPropertiesPage extends Composite {
 	}
 
 	private TableViewerColumn createDefaultValueColumn(
-			final CheckboxTableViewer tableViewer, int colNumber,
+			final TableViewer tableViewer, int colNumber,
 			DefaultProperties defaultProperties) {
 		TableViewerColumn defaultValueColumn = createViewerColumn(tableViewer,
 				"<" + defaultProperties.getLanguage() + ">", 150, colNumber,
@@ -308,8 +293,8 @@ public abstract class AbstractPropertiesPage extends Composite {
 		return defaultValueColumn;
 	}
 
-	private TableViewerColumn createDefaultKeyColumn(
-			CheckboxTableViewer tableViewer, int colNumber) {
+	private TableViewerColumn createDefaultKeyColumn(TableViewer tableViewer,
+			int colNumber) {
 		TableViewerColumn keyColumn = createViewerColumn(tableViewer, "Key",
 				150, colNumber, true);
 		TableColumn column = keyColumn.getColumn();
@@ -379,9 +364,8 @@ public abstract class AbstractPropertiesPage extends Composite {
 		return textArea;
 	}
 
-	private TableViewerColumn createViewerColumn(
-			CheckboxTableViewer tableViewer, String text, int width,
-			int colNumber, boolean sort) {
+	private TableViewerColumn createViewerColumn(TableViewer tableViewer,
+			String text, int width, int colNumber, boolean sort) {
 		TableViewerColumn viewerColumn = new TableViewerColumn(tableViewer,
 				SWT.NORMAL);
 
@@ -390,7 +374,7 @@ public abstract class AbstractPropertiesPage extends Composite {
 		column.setWidth(width);
 		column.setResizable(true);
 
-		if (colNumber > 1) {
+		if (colNumber > 0) {
 			column.setMoveable(true);
 		}
 		if (sort) {
@@ -402,9 +386,8 @@ public abstract class AbstractPropertiesPage extends Composite {
 		return viewerColumn;
 	}
 
-	private SelectionAdapter getSelectionAdapter(
-			final CheckboxTableViewer tableViewer, final TableColumn column,
-			final int index) {
+	private SelectionAdapter getSelectionAdapter(final TableViewer tableViewer,
+			final TableColumn column, final int index) {
 		SelectionAdapter selectionAdapter = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -416,49 +399,6 @@ public abstract class AbstractPropertiesPage extends Composite {
 			}
 		};
 		return selectionAdapter;
-	}
-
-	protected void createButtonBar(Composite container,
-			final CheckboxTableViewer tableViewer) {
-		Composite buttonBar = new Composite(container, SWT.NONE);
-		buttonBar.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false,
-				1, 1));
-		buttonBar.setLayout(new GridLayout(2, false));
-		Button applyButton = new Button(buttonBar, SWT.PUSH);
-		applyButton.setText("Merge");
-		applyButton.addListener(SWT.Selection, new Listener() {
-
-			@Override
-			public void handleEvent(Event event) {
-				List<DefaultProperty> list = new ArrayList<DefaultProperty>();
-				for (DefaultProperty each : propertiesEditor
-						.getDefaultProperties().getProperty()) {
-					boolean checked = tableViewer.getChecked(each);
-					if (checked) {
-						list.add(each);
-					}
-				}
-				if (list.size() == 0) {
-					return;
-				}
-				MergeDialog dialog = new MergeDialog(new Shell(event.display),
-						list);
-				if (IDialogConstants.OK_ID == dialog.open()) {
-					Merge merge = dialog.getMerge();
-					propertiesEditor.getDefaultProperties().getMerges()
-							.add(merge);
-					propertiesEditor.getDefaultProperties().getProperty()
-							.add(merge.getProperty());
-					tableViewer.setInput(propertiesEditor
-							.getDefaultProperties());
-					for (DefaultProperty each : merge.getMergedProperty()) {
-						propertiesEditor.getDefaultProperties().getProperty()
-								.remove(each);
-					}
-				}
-
-			}
-		});
 	}
 
 	protected void refreshModel() {

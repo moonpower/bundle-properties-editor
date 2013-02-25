@@ -109,10 +109,13 @@ public class MergeDialog extends Dialog {
 
 		keyText = new Text(container, SWT.NORMAL | SWT.BORDER);
 		keyText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		keyText.setText(list.get(0).getKey());
 
 		label = new Label(container, SWT.NORMAL);
 		label.setText("Value : ");
 		valueText = new Text(container, SWT.NORMAL | SWT.BORDER);
+		valueText.setText(StringUtil.getUnicodeToUnicodeText(list.get(0)
+				.getValue()));
 		valueText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		tableViewer

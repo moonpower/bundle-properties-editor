@@ -12,7 +12,7 @@ public class TableViewerComparator extends ViewerComparator {
 	private int direction = DESCENDING;
 
 	public TableViewerComparator() {
-		this.propertyIndex = 1;
+		this.propertyIndex = 0;
 		direction = DESCENDING;
 	}
 
