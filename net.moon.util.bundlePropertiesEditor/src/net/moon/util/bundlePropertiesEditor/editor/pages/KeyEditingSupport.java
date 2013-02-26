@@ -49,10 +49,9 @@ public class KeyEditingSupport extends EditingSupport {
 	@Override
 	protected void setValue(Object element, Object value) {
 		DefaultProperty property = (DefaultProperty) element;
-		String text = value.toString().trim();
+		String text = value.toString();
 		if (text.contains(" ")) {
-			System.out.println("공백 있음 에러");
-			return;
+			text = text.replace(" ", "_");
 		}
 
 		String result = StringUtil.getUnicodeTextToText(text);

@@ -47,7 +47,7 @@ public class SubValueEditingSupport extends EditingSupport {
 	@Override
 	protected void setValue(Object element, Object value) {
 		DefaultProperty property = (DefaultProperty) element;
-		String textValue = value.toString().trim();
+		String textValue = value.toString();
 		if (!(property.getSubProperty().size() >= index)) {
 			int size = property.getSubProperty().size();
 			int result = index + 1 - size;

@@ -44,7 +44,7 @@ public class ValueEditingSupport extends EditingSupport {
 	@Override
 	protected void setValue(Object element, Object value) {
 		DefaultProperty property = (DefaultProperty) element;
-		String textValue = value.toString().trim();
+		String textValue = value.toString();
 		String result = StringUtil.getUnicodeTextToText(textValue);
 		property.setValue(result);
 
